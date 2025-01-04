@@ -19,9 +19,14 @@
             <!-- Logo -->
             <div class="flex items-center">
                 <a href="{% url 'home' %}">
-                    <img src="{% static 'assets/Shoes.png' %}" alt="Logo" class="w-[129px] h-[39px] object-contain mr-3">
+                    {% if footer and footer.logo %}
+                        <img src="{{ footer.logo.url }}" alt="Logo" class="w-[129px] h-[39px] object-contain mr-3">
+                    {% else %}
+                        <span class="text-lg font-bold">Logo</span>
+                    {% endif %}
                 </a>
             </div>
+            
 
             <!-- Menu (Desktop) -->
             <nav class="hidden md:flex space-x-6 uppercase">

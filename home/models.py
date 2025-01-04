@@ -234,12 +234,14 @@ class FooterLink(models.Model):
         return self.name
 
 class Footer(models.Model):
+    logo = models.ImageField(upload_to='logo/', verbose_name="Site logo")
     title = models.CharField(max_length=100)
     description = models.TextField()
     fb_link = models.URLField(blank=True, null=True)
     twitter_link = models.URLField(blank=True, null=True)
     instagram_link = models.URLField(blank=True, null=True)
     youtube_link = models.URLField(blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)  
     
     def __str__(self):
         return self.title

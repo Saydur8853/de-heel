@@ -24,9 +24,14 @@
             <!-- Logo -->
             <div class="flex items-center">
               <a href="{% url 'home' %}">
-                  <img src="{% static 'assets/Shoes.png' %}" alt="Logo" class="w-[129px] h-[39px] object-contain mr-3">
+                  {% if footer and footer.logo %}
+                      <img src="{{ footer.logo.url }}" alt="Logo" class="w-[129px] h-[39px] object-contain mr-3">
+                  {% else %}
+                      <span class="text-lg font-bold">Logo</span>
+                  {% endif %}
               </a>
-            </div>
+          </div>
+          
 
             <!-- Menu (Desktop) -->
             <nav class="hidden md:flex space-x-6 uppercase">
@@ -156,8 +161,8 @@
                               <p class="text-gray-600 text-sm">{{ product.description }}</p>
                               <p class="text-gray-600 text-sm">${{ product.price }}</p>
                               <button class="text-green-500 absolute top-[-60px] right-0">
-                                  <i class="fa-solid fa-cart-shopping border-4 relative border-white bg-[#D3E6D8] rounded-full p-3"></i>
-                                  <span class="absolute right-1 bg-red-700 rounded-full text-sm text-white px-1"></span>
+                                  <i class="fa-solid fa-cubes border-4 relative border-white bg-[#D3E6D8] rounded-full p-3"></i>
+                                  <span class="absolute right-1 bg-red-700 rounded-full text-sm text-white px-1">{{ product.stock }}</span>
                               </button>
                           </div>
                       </div>

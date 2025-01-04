@@ -21,9 +21,14 @@
       <!-- Logo -->
       <div class="flex items-center">
         <a href="{% url 'home' %}">
-            <img src="{% static 'assets/Shoes.png' %}" alt="Logo" class="w-[129px] h-[39px] object-contain mr-3">
+            {% if footer and footer.logo %}
+                <img src="{{ footer.logo.url }}" alt="Logo" class="w-[129px] h-[39px] object-contain mr-3">
+            {% else %}
+                <span class="text-lg font-bold">Logo</span>
+            {% endif %}
         </a>
-      </div>
+    </div>
+    
 <!-- Menu (Desktop) -->
       <nav class="hidden md:flex space-x-6 uppercase">
         <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
@@ -37,9 +42,21 @@
         <button class="hover:text-gray-300">
           <i class="fa-solid fa-bell"></i>
         </button>
-        <button class="hover:text-gray-300">
-          <i class="fa-solid fa-phone"></i>
-        </button>
+        <div>
+          <!-- Display Footer Phone Number Dynamically -->
+          {% if footer.phone_number %}
+            <button class="hover:text-gray-300">
+              <a href="tel:{{ footer.phone_number }}">
+                <i class="fa-solid fa-phone"></i> Call Us
+              </a>
+            </button>
+          {% else %}
+            <button class="hover:text-gray-300" disabled>
+              <i class="fa-solid fa-phone"></i> No Phone Available
+            </button>
+          {% endif %}
+        </div>
+        
         <button id="menu-toggle" class="md:hidden hover:text-gray-300 focus:outline-none">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -163,8 +180,8 @@
               <p class="text-gray-600 text-sm">{{ product.description }}</p>
               <p class="text-gray-600 text-sm">${{ product.price }}</p>
               <button class="text-green-500 absolute top-[-60px] right-0">
-                <i class="fa-solid fa-cart-shopping border-4 relative border-white bg-[#D3E6D8] rounded-full p-3"></i>
-                <span class="absolute right-1 bg-red-700 rounded-full text-sm text-white px-1"></span>
+                <i class="fa-solid fa-cubes border-4 relative border-white bg-[#D3E6D8] rounded-full p-3"></i>
+                <span class="absolute right-1 bg-red-700 rounded-full text-sm text-white px-1">{{ product.stock }}</span>
               </button>
             </div>
           </div>
