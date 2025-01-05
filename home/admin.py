@@ -210,12 +210,17 @@ class AppointmentAdmin(admin.ModelAdmin):
     list_filter = ('calendar',)
     search_fields = ('name', 'phone_number', 'email')
     ordering = ('-calendar',)  # Orders by most recent appointments
-    # fieldsets = (
-    #     (None, {
-    #         'fields': ('name', 'calendar', 'phone_number', 'email', 'short_message'),
-    #     }),
-    #     ('Advanced options', {
-    #         'classes': ('collapse',),
-    #         'fields': (),
-    #     }),
-    # )
+    
+    
+##     ## #### ########  ########  #######      ######   #######  ##    ## ######## ######## ########  ######## ##    ##  ######  ######## 
+##     ##  ##  ##     ## ##       ##     ##    ##    ## ##     ## ###   ## ##       ##       ##     ## ##       ###   ## ##    ## ##       
+##     ##  ##  ##     ## ##       ##     ##    ##       ##     ## ####  ## ##       ##       ##     ## ##       ####  ## ##       ##       
+##     ##  ##  ##     ## ######   ##     ##    ##       ##     ## ## ## ## ######   ######   ########  ######   ## ## ## ##       ######   
+ ##   ##   ##  ##     ## ##       ##     ##    ##       ##     ## ##  #### ##       ##       ##   ##   ##       ##  #### ##       ##       
+  ## ##    ##  ##     ## ##       ##     ##    ##    ## ##     ## ##   ### ##       ##       ##    ##  ##       ##   ### ##    ## ##       
+   ###    #### ########  ########  #######      ######   #######  ##    ## ##       ######## ##     ## ######## ##    ##  ######  ######## 
+@admin.register(VideoConference)   
+class VideoConferenceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'url')  # Display these fields in the list view
+    search_fields = ('title', 'url')  # Allow searching by title and URL
+    list_filter = ('url',)  # Filter by URL if needed

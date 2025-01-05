@@ -132,12 +132,16 @@
       </p>
   
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl w-full mt-6 mb-5">
-        <div class="flex flex-col mb-10 p-6 bg-green-50 rounded-lg shadow-lg">
-          <p class="text-gray-800 text-center font-semibold">
-            video Fixed an appointment for live factory visit via video conference
-          </p>
-          <img src="{% static 'assets/gp1.png' %}" class="w-[80px] mt-5 h-[80px] mx-auto" />
-        </div>
+        {% for conference in video_conferences %}
+        <a href="{{ conference.url }}" target="_blank">
+            <div class="flex flex-col mb-10 p-6 bg-green-50 rounded-lg shadow-lg">
+                <p class="text-gray-800 text-center font-semibold">
+                    {{ conference.title }}
+                </p>
+                <img src="{% static 'assets/gp1.png' %}" class="w-[80px] mt-5 h-[80px] mx-auto" />
+            </div>
+        </a>
+        {% endfor %}
 
 
 

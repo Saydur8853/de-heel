@@ -21,6 +21,7 @@ def home(request):
     contact_us = ContactUs.objects.first()
     new_appointments = Appointment.objects.filter(viewed=False).order_by('-calendar')[:5]
     has_new_appointments = new_appointments.exists()
+    video_conferences = VideoConference.objects.all()
     
     context = {
         'banner': banner,
@@ -36,6 +37,7 @@ def home(request):
         'contact_us': contact_us,
         'new_appointments': new_appointments,
         'has_new_appointments': has_new_appointments,
+        'video_conferences': video_conferences,
    
     }
     
