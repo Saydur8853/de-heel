@@ -15,7 +15,11 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+BASE_URL = os.getenv('BASE_URL')
+CSRF_TRUSTED_ORIGINS = [
+    # BASE_URL,
+    'https://3fe2-103-231-176-122.ngrok-free.app', #remove it while production
+]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Quick-start development settings - unsuitable for production
@@ -27,7 +31,7 @@ SECRET_KEY = 'django-insecure-cxm7y^+elg)7-=a#+_oefj*im9=+c&@1$$lwaepc%#70_#g!su
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition

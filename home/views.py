@@ -1,4 +1,9 @@
-from django.shortcuts import render
+from django.utils import timezone
+from datetime import datetime
+from django.shortcuts import render,redirect
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 from .models import *
 
 def home(request):
@@ -13,6 +18,9 @@ def home(request):
     latest_products = Product.objects.filter(latest=True)
     footer = Footer.objects.first()
     footer_links = FooterLink.objects.all() 
+    contact_us = ContactUs.objects.first()
+    new_appointments = Appointment.objects.filter(viewed=False).order_by('-calendar')[:5]
+    has_new_appointments = new_appointments.exists()
     
     context = {
         'banner': banner,
@@ -24,13 +32,62 @@ def home(request):
         "category_level1_list": category_level1_list,
         'latest_products': latest_products,
         'footer': footer,
-        'footer_links': footer_links
+        'footer_links': footer_links,
+        'contact_us': contact_us,
+        'new_appointments': new_appointments,
+        'has_new_appointments': has_new_appointments,
    
     }
     
     return render(request, 'home.html', context)
 
+def submit_appointment(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        calendar = request.POST.get('calendar')
+        phone_number = request.POST.get('phone_number')
+        email = request.POST.get('email', '')
+        short_message = request.POST.get('short_message')
 
+        # Convert the string calendar value to a datetime object
+        try:
+            calendar = timezone.make_aware(datetime.strptime(calendar, '%Y-%m-%dT%H:%M'))
+        except ValueError:
+            messages.error(request, "Invalid date format.")
+            return redirect('home')  # Redirect if the date format is invalid
+
+        # Check if the appointment date is in the past
+        if calendar < timezone.now():
+            messages.error(request, "Appointment date cannot be in the past.")
+            return redirect('home')  # Redirect to the home page or another page
+
+        if name and calendar and phone_number:  # Basic validation
+            Appointment.objects.create(
+                name=name,
+                calendar=calendar,
+                phone_number=phone_number,
+                email=email,
+                short_message=short_message
+            )
+            messages.success(request, "Your appointment request has been submitted.")
+        else:
+            messages.error(request, "Please fill in all required fields.")
+
+        return redirect('home')  # Redirect to the home page or another page
+
+    return redirect('home')
+
+@csrf_exempt
+def mark_appointment_as_viewed(request, appointment_id):
+    if request.method == 'POST':
+        try:
+            appointment = Appointment.objects.get(id=appointment_id)
+            appointment.viewed = True  # Use the `viewed` field
+            appointment.save()
+            return JsonResponse({'status': 'success'})
+        except Appointment.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Appointment not found'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
 def about(request):
     banner = AboutUsBanner.objects.last()

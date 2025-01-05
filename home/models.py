@@ -241,7 +241,42 @@ class Footer(models.Model):
     twitter_link = models.URLField(blank=True, null=True)
     instagram_link = models.URLField(blank=True, null=True)
     youtube_link = models.URLField(blank=True, null=True)
-    phone_number = models.CharField(max_length=20, blank=True, null=True)  
     
     def __str__(self):
         return self.title
+    
+    
+    
+ ######   #######  ##    ## ######## ##     ##  ######  ########    ##     ##  ######  
+##    ## ##     ## ###   ##    ##    ##     ## ##    ##    ##       ##     ## ##    ## 
+##       ##     ## ####  ##    ##    ##     ## ##          ##       ##     ## ##       
+##       ##     ## ## ## ##    ##    ##     ## ##          ##       ##     ##  ######  
+##       ##     ## ##  ####    ##    ##     ## ##          ##       ##     ##       ## 
+##    ## ##     ## ##   ###    ##    ##     ## ##    ##    ##       ##     ## ##    ## 
+ ######   #######  ##    ##    ##     #######   ######     ##        #######   ######  
+ 
+class ContactUs(models.Model):
+    title = models.CharField(blank=True, null=True, max_length=100, verbose_name="Title")
+    phone_number = models.CharField(max_length=25, verbose_name="Phone Number")
+
+    def __str__(self):
+        return self.title 
+    
+   ###    ########  ########   #######  #### ##    ## ##     ## ######## ##    ## ######## 
+  ## ##   ##     ## ##     ## ##     ##  ##  ###   ## ###   ### ##       ###   ##    ##    
+ ##   ##  ##     ## ##     ## ##     ##  ##  ####  ## #### #### ##       ####  ##    ##    
+##     ## ########  ########  ##     ##  ##  ## ## ## ## ### ## ######   ## ## ##    ##    
+######### ##        ##        ##     ##  ##  ##  #### ##     ## ##       ##  ####    ##    
+##     ## ##        ##        ##     ##  ##  ##   ### ##     ## ##       ##   ###    ##    
+##     ## ##        ##         #######  #### ##    ## ##     ## ######## ##    ##    ##    
+
+class Appointment(models.Model):
+    calendar = models.DateTimeField(verbose_name="Appointment Date and Time")
+    name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField(blank=True, null=True)
+    short_message = models.TextField(blank=True, null=True)
+    viewed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name}"

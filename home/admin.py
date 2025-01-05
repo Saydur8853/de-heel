@@ -182,3 +182,40 @@ class FooterAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description')
     list_filter = ('fb_link', 'twitter_link', 'instagram_link', 'youtube_link')
     ordering = ('title',)
+
+
+ ######   #######  ##    ## ########    ###     ######  ########    ##     ##  ######  
+##    ## ##     ## ###   ##    ##      ## ##   ##    ##    ##       ##     ## ##    ## 
+##       ##     ## ####  ##    ##     ##   ##  ##          ##       ##     ## ##       
+##       ##     ## ## ## ##    ##    ##     ## ##          ##       ##     ##  ######  
+##       ##     ## ##  ####    ##    ######### ##          ##       ##     ##       ## 
+##    ## ##     ## ##   ###    ##    ##     ## ##    ##    ##       ##     ## ##    ## 
+ ######   #######  ##    ##    ##    ##     ##  ######     ##        #######   ######  
+@admin.register(ContactUs)
+class ContactUsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'phone_number')
+    
+    
+   ###    ########  ########   #######  #### ##    ## ##     ## ######## ##    ## ########    
+  ## ##   ##     ## ##     ## ##     ##  ##  ###   ## ###   ### ##       ###   ##    ##       
+ ##   ##  ##     ## ##     ## ##     ##  ##  ####  ## #### #### ##       ####  ##    ##       
+##     ## ########  ########  ##     ##  ##  ## ## ## ## ### ## ######   ## ## ##    ##       
+######### ##        ##        ##     ##  ##  ##  #### ##     ## ##       ##  ####    ##       
+##     ## ##        ##        ##     ##  ##  ##   ### ##     ## ##       ##   ###    ##       
+##     ## ##        ##         #######  #### ##    ## ##     ## ######## ##    ##    ##       
+
+@admin.register(Appointment)
+class AppointmentAdmin(admin.ModelAdmin):
+    list_display = ("viewed", 'name', 'calendar', 'phone_number', 'email', 'short_message')
+    list_filter = ('calendar',)
+    search_fields = ('name', 'phone_number', 'email')
+    ordering = ('-calendar',)  # Orders by most recent appointments
+    # fieldsets = (
+    #     (None, {
+    #         'fields': ('name', 'calendar', 'phone_number', 'email', 'short_message'),
+    #     }),
+    #     ('Advanced options', {
+    #         'classes': ('collapse',),
+    #         'fields': (),
+    #     }),
+    # )
