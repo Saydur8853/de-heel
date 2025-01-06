@@ -13,6 +13,24 @@ def home(request):
     branches = Branch.objects.all() 
     gallery_images = ImageGallery.objects.all()
     video_section = VideoSection.objects.last()
+    
+    level1_categories = CategoryLevel1.objects.prefetch_related('level2_categories__level3_categories')
+    products = Product.objects.order_by('-id')
+    category_level1 = request.GET.get('category_level1')
+    category_level2 = request.GET.get('category_level2')
+    category_level3 = request.GET.get('category_level3')
+    category_all = request.GET.get('category')
+    
+    if category_all == "all":
+        pass
+    elif category_level3:
+        products = products.filter(category_id=category_level3)
+    elif category_level2:
+        products = products.filter(category__parent_id=category_level2)
+    elif category_level1:
+        products = products.filter(category__parent__parent_id=category_level1)
+        
+    
 
     category_level1_list = CategoryLevel1.objects.prefetch_related('level2_categories').all()
     latest_products = Product.objects.filter(latest=True)
@@ -38,6 +56,8 @@ def home(request):
         'new_appointments': new_appointments,
         'has_new_appointments': has_new_appointments,
         'video_conferences': video_conferences,
+        'level1_categories': level1_categories,
+        'products': products,
    
     }
     
@@ -103,6 +123,23 @@ def about(request):
     footer = Footer.objects.first()
     footer_links = FooterLink.objects.all() 
     
+    
+    level1_categories = CategoryLevel1.objects.prefetch_related('level2_categories__level3_categories')
+    products = Product.objects.order_by('-id')
+    category_level1 = request.GET.get('category_level1')
+    category_level2 = request.GET.get('category_level2')
+    category_level3 = request.GET.get('category_level3')
+    category_all = request.GET.get('category')
+    
+    if category_all == "all":
+        pass
+    elif category_level3:
+        products = products.filter(category_id=category_level3)
+    elif category_level2:
+        products = products.filter(category__parent_id=category_level2)
+    elif category_level1:
+        products = products.filter(category__parent__parent_id=category_level1)
+    
     context = {
         "banner": banner,
         "company_voice": company_voice,
@@ -113,7 +150,10 @@ def about(request):
         "team_members": team_members,
         "mission_vision": mission_vision,
         'footer': footer,
-        'footer_links': footer_links
+        'footer_links': footer_links,
+        'level1_categories': level1_categories,
+        'products': products,
+   
    
         
     }
@@ -130,7 +170,8 @@ def product(request):
     footer = Footer.objects.first()
     footer_links = FooterLink.objects.all() 
 
-    products = Product.objects.order_by('-id')
+    # products = Product.objects.order_by('-id')
+    products = Product.objects.all()
 
     if category_all == "all":
         pass
@@ -145,7 +186,8 @@ def product(request):
         'level1_categories': level1_categories,
         'products': products,
         'footer': footer,
-        'footer_links': footer_links
+        'footer_links': footer_links,
+        
    
     }
     return render(request, 'products.html', context)

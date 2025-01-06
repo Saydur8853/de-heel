@@ -64,7 +64,7 @@
     <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
 
     <!-- Sliding Menu Drawer -->
-    <div id="menu-drawer"
+    <!-- <div id="menu-drawer"
         class="fixed right-0 w-64 bg-gray-800 bg-opacity-70 transform translate-x-full transition-transform duration-300 ease-in-out z-50 rounded-tl-lg rounded-bl-lg">
         <div class="p-4 text-white">
             <button id="menu-close" class="hover:text-gray-300 focus:outline-none mb-4">
@@ -77,26 +77,163 @@
         
             </nav>
         </div>
+    </div> -->
+    <!-- Sliding Menu Drawer -->
+    <div id="menu-drawer"
+    class="fixed right-0 w-64 bg-gray-800 bg-opacity-70 transform translate-x-full transition-transform duration-300 ease-in-out z-50 rounded-tl-lg rounded-bl-lg">
+    <div class="p-4 text-white">
+        <button id="menu-close" class="hover:text-gray-300 focus:outline-none mb-4">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+        <nav class="flex flex-col space-y-4">
+            <a href="{% url 'home' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">Home</a>
+            <a href="{% url 'product' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">Products</a>
+            <a href="{% url 'about' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">About US</a>
+        </nav>
+
+        <!-- Category Filter Form -->
+        <section class="mt-4">
+            <form method="get" id="filterForm">
+                <!-- Category Heading (Non-clickable and Bold) -->
+                <h1 class="m-1 rounded-sm bg-[#5ba164] font-bold text-xl text-white text-center">Category</h1>
+
+                <!-- All Products Option -->
+                <div class="accordion-item rounded-sm overflow-hidden">
+                    <button type="submit" name="category" value="all" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                        <span class="py-4 text-xl font-medium">All</span>
+                    </button>
+                </div>
+
+                <!-- Level 1 Categories -->
+                <div class="accordion flex flex-col gap-4">
+                    {% for level1 in level1_categories %}
+                    <div class="accordion-item rounded-sm overflow-hidden">
+                        <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                            <span class="text-xl font-medium text-white">{{ level1.name }}</span>
+                            <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
+                                <i class="fa-solid fa-chevron-down text-white"></i>
+                            </span>
+                        </button>
+                        <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                          <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
+                            <div class="p-6 ">
+                                {% for level2 in level1.level2_categories.all %}
+                                <div class="accordion flex flex-col">
+                                    <div class="accordion-item border-b border-slate-200">
+                                        <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                                            <span class="text-lg font-medium text-white">{{ level2.name }}</span>
+                                            <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
+                                                <i class="fa-solid fa-chevron-down text-white"></i>
+                                            </span>
+                                        </button>
+                                        <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                                          <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
+                                          <div class="pb-2 flex flex-col justify-end items-center">
+                                              <div class="w-2/3 p-2 rounded-md text-white">
+                                                  {% for level3 in level2.level3_categories.all %}
+                                                      <label class="cursor-pointer block pb-2" onclick="setCategoryAndSubmit('{{ level3.id }}')">
+                                                          > {{ level3.name }}
+                                                          <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
+                                                      </label>
+                                                  {% endfor %}
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- End Level 1 Categories -->
+            </form>
+        </section>
     </div>
+</div>
+
+
+
+
 
     <!-- Banner -->
 
     <main class="max-w-[1200px] mx-auto overflow-hidden">
         <div class="grid grid-cols-12 gap-10">
-          <div class="col-span-12 md:col-span-4 flex flex-col mt-[200px] shadow-md rounded-lg w-full mx-auto space-y-20 my-auto">
+          <div class="ml-5 col-span-12 md:col-span-4 flex flex-col mt-[200px] p-8 shadow-md shadow-green-300 rounded-lg w-full mx-auto space-y-20 my-auto md:block hidden">
+            <section class="mt-4">
+              <form method="get" id="filterForm">
+                  <!-- Category Heading (Non-clickable and Bold) -->
+                  <h1 class=" font-bold text-xl text-[#5ba164] text-center">Category</h1>
+
+                  <!-- All Products Option -->
+                  <div class="accordion-item rounded-sm overflow-hidden">
+                      <button type="submit" name="category" value="all" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                          <span class="py-4 text-xl font-medium">All</span>
+                      </button>
+                  </div>
+
+                  <!-- Level 1 Categories -->
+                  <div class="accordion flex flex-col gap-4">
+                      {% for level1 in level1_categories %}
+                      <div class="accordion-item rounded-sm overflow-hidden">
+                          <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                              <span class="text-xl font-medium text-black">{{ level1.name }}</span>
+                              <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
+                                  <i class="fa-solid fa-chevron-down text-black"></i>
+                              </span>
+                          </button>
+                          <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                            <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
+                              <div class="p-6 ">
+                                  {% for level2 in level1.level2_categories.all %}
+                                  <div class="accordion flex flex-col">
+                                      <div class="accordion-item border-b border-slate-200">
+                                          <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                                              <span class="text-lg font-medium text-black">{{ level2.name }}</span>
+                                              <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
+                                                  <i class="fa-solid fa-chevron-down text-black"></i>
+                                              </span>
+                                          </button>
+                                          <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                                            <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
+                                            <div class="pb-2 flex flex-col justify-end items-center">
+                                                <div class="w-2/3 p-1 rounded-md text-black">
+                                                    {% for level3 in level2.level3_categories.all %}
+                                                        <label class="cursor-pointer block pb-2" onclick="setCategoryAndSubmit('{{ level3.id }}')">
+                                                            > {{ level3.name }}
+                                                            <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
+                                                        </label>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  {% endfor %}
+                              </div>
+                          </div>
+                      </div>
+                      {% endfor %}
+                  </div>
+                  <!-- End Level 1 Categories -->
+              </form>
+          </section>
+          </div>
+
+          
+          <!-- <div class="col-span-12 md:col-span-4 flex flex-col mt-[200px] shadow-md rounded-lg w-full mx-auto space-y-20 my-auto">
             <section>
               <div class="relative flex min-h-screen flex-col overflow-hidden py-6 sm:py-12">
                 <div class="px-4 relative z-10">
                   <form method="get" id="filterForm">
-                    <!-- All Products Option -->
                     <div class="accordion-item bg-white rounded-2xl overflow-hidden">
                       <button type="submit" name="category" value="all" class="accordion-header flex px-6 py-4 justify-between gap-4 items-center w-full group transition-all duration-300 ease-in-out">
                         <span class="text-xl font-medium text-black">All</span>
                       </button>
                     </div>
-                    <!-- End All Products Option -->
           
-                    <!-- Level 1 Categories -->
                     <div class="accordion flex flex-col gap-4">
                       {% for level1 in level1_categories %}
                       <div class="accordion-item bg-white rounded-2xl overflow-hidden">
@@ -137,12 +274,11 @@
                       </div>
                       {% endfor %}
                     </div>
-                    <!-- End Level 1 Categories -->
                   </form>
                 </div>
               </div>
             </section>
-          </div>
+          </div> -->
           
           
             <div class="col-span-12 md:col-span-8 mt-[110px] p-5">
@@ -356,7 +492,18 @@
 
 
         
+function setCategoryAndSubmit(categoryId) {
+      // Set the category value
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'category_level3';
+      input.value = categoryId;
 
+      // Append the input to the form and submit it
+      const form = document.getElementById('filterForm');
+      form.appendChild(input);
+      form.submit();
+  }
 
 
     </script>

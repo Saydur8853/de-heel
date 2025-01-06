@@ -102,21 +102,95 @@
   <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
 
   <!-- Sliding Menu Drawer -->
-  <div id="menu-drawer"
+  <!-- <div id="menu-drawer"
     class="fixed right-0 w-64 bg-gray-800 bg-opacity-70 transform translate-x-full transition-transform duration-300 ease-in-out z-50 rounded-tl-lg rounded-bl-lg">
     <div class="p-4 text-white">
-      <!-- Close Button -->
       <button id="menu-close" class="hover:text-gray-300 focus:outline-none mb-4">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
 
-      <!-- Dynamic Navigation -->
       <nav class="flex flex-col space-y-4">
         <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
-        <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a> 
         <a href="{% url 'product' %}" class="hover:text-gray-300">Products</a> 
+        <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a> 
+        
 
       </nav>
+    </div>
+</div> -->
+<div id="menu-drawer"
+    class="fixed right-0 w-64 bg-gray-800 bg-opacity-70 transform translate-x-full transition-transform duration-300 ease-in-out z-50 rounded-tl-lg rounded-bl-lg">
+    <div class="p-4 text-white">
+        <button id="menu-close" class="hover:text-gray-300 focus:outline-none mb-4">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+        <nav class="flex flex-col space-y-4">
+            <a href="{% url 'home' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">Home</a>
+            <a href="{% url 'product' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">Products</a>
+            <a href="{% url 'about' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">About Us</a>
+        </nav>
+
+        <!-- Category Filter Form -->
+        <section class="mt-4">
+            <form method="get" id="filterForm">
+                <h1 class="m-1 rounded-sm bg-[#5ba164] font-bold text-xl text-white text-center">Category</h1>
+
+                <!-- All Products Option -->
+                <div class="accordion-item rounded-sm overflow-hidden">
+                    <button type="submit" name="category" value="all"
+                        class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                        <span class="py-4 text-xl font-medium">All</span>
+                    </button>
+                </div>
+
+                <!-- Level 1 Categories -->
+                <div class="accordion flex flex-col gap-4">
+                    {% for level1 in level1_categories %}
+                    <div class="accordion-item rounded-sm overflow-hidden">
+                        <button type="button"
+                            class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                            <span class="text-xl font-medium text-white">{{ level1.name }}</span>
+                            <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
+                                <i class="fa-solid fa-chevron-down text-white"></i>
+                            </span>
+                        </button>
+                        <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                            <span class="block border-b-2 border-green-500 mt-1"></span>
+                            <div class="p-6">
+                                {% for level2 in level1.level2_categories.all %}
+                                <div class="accordion flex flex-col">
+                                    <div class="accordion-item border-b border-slate-200">
+                                        <button type="button"
+                                            class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                                            <span class="text-lg font-medium text-white">{{ level2.name }}</span>
+                                            <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
+                                                <i class="fa-solid fa-chevron-down text-white"></i>
+                                            </span>
+                                        </button>
+                                        <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                                            <span class="block border-b-2 border-green-500 mt-1"></span>
+                                            <div class="pb-2 flex flex-col justify-end items-center">
+                                                <div class="w-2/3 p-2 rounded-md text-white">
+                                                  {% for level3 in level2.level3_categories.all %}
+                                                  <a href="{% url 'product' %}?category={{ level3.id }}" class="block pb-2 cursor-pointer text-white">
+                                                      > {{ level3.name }}
+                                                      <span class="block border-b-2 border-green-500 mt-1"></span>
+                                                  </a>
+                                                  {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- End Level 1 Categories -->
+            </form>
+        </section>
     </div>
 </div>
 
@@ -134,8 +208,8 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl w-full mt-6 mb-5">
         {% for conference in video_conferences %}
         <a href="{{ conference.url }}" target="_blank">
-            <div class="flex flex-col mb-10 p-6 bg-green-50 rounded-lg shadow-lg">
-                <p class="text-gray-800 text-center font-semibold">
+            <div class="flex flex-col h-[150px] md:h-[220px] mb-10 p-6 bg-green-50 rounded-lg shadow-lg">
+                <p class="text-gray-800 text-xs md:text-base text-center font-semibold">
                     {{ conference.title }}
                 </p>
                 <img src="{% static 'assets/gp1.png' %}" class="w-[80px] mt-5 h-[80px] mx-auto" />
@@ -472,25 +546,28 @@
     </div>
 
     <!-- Achievement Carousel Section -->
-    <div class="py-10 max-w-[1200px] mx-auto">
+
+    <div class="py-10 max-w-[1200px] mx-auto overflow-hidden">
       <h1 class="text-center mt-5 mb-5 font-bold text-2xl md:text-4xl">Achievement</h1>
-      <section class="my-10">
+      <section class="my-0">
         <section class="carousel-3D-swiper-section">
           <div class="carousel-3D-swiper">
-            <div class="swiper-wrapper" style="max-width: 1000px;">
+            <div class="swiper-wrapper max-w-[1000px]">
               {% for image in carousel_images %}
               <div class="swiper-slide">
-                <div class="image-wrapper aspect-video">
-                  <img class="aspect-video" src="{{ image.image.url }}" alt="{{ image.alt_text }}">
+                <div class="relative w-full h-[400px] overflow-hidden rounded-lg">
+                  <img class="w-full h-full object-cover" src="{{ image.image.url }}" alt="{{ image.alt_text }}">
                 </div>
               </div>
               {% endfor %}
             </div>
-            <div class="swiper-pagination" style="bottom: -50px;"></div>
+            <div class="swiper-pagination" style="bottom: -45px;"></div>
           </div>
         </section>
       </section>
     </div>
+    
+    
       
 
     <!--Branch Section -->
@@ -909,31 +986,112 @@
       });
     });
 
+    // achivement carousel
     document.addEventListener("DOMContentLoaded", () => {
-    const carousel3Dswiper = new Swiper(".carousel-3D-swiper", {
-        loop: true,
-        effect: "coverflow",
-        grabCursor: true,
-        centeredSlides: true,
+  const carousel3Dswiper = new Swiper(".carousel-3D-swiper", {
+    loop: true,
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 4,
+    coverflowEffect: {
+      rotate: 0,
+      stretch: 0,
+      depth: 350,
+      modifier: 1,
+      slideShadows: true,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    autoplay: {
+      delay: 2000, // Delay in milliseconds (3 seconds in this case)
+      disableOnInteraction: false, // Keep autoplay even after interacting with the carousel
+    },
+    breakpoints: {
+      0: { // Mobile devices
+        slidesPerView: 1.5, // Show the center image bigger and part of the side images
+        coverflowEffect: {
+          depth: 200,
+          stretch: 50, // Pull side images closer
+        },
+      },
+      768: { // Tablets
+        slidesPerView: 2.5,
+        coverflowEffect: {
+          depth: 300,
+          stretch: 30,
+        },
+      },
+      1024: { // Laptops and larger
         slidesPerView: 4,
         coverflowEffect: {
-          rotate: 0,
-          stretch: 0,
           depth: 350,
-          modifier: 1,
-          slideShadows: true,
+          stretch: 0,
         },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-        
-      });
+      },
+    },
+  });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const accordionHeaders = document.querySelectorAll(".accordion-header");
+
+  accordionHeaders.forEach((header) => {
+    header.addEventListener("click", (event) => {
+      event.stopPropagation(); // Stop propagation to avoid conflicts
+
+      const parent = header.parentElement; // Current accordion-item
+      const content = parent.querySelector(":scope > .accordion-collapse"); // Immediate accordion-collapse
+
+      // Toggle active state
+      parent.classList.toggle("active");
+
+      // Rotate icon
+      const icon = header.querySelector("i");
+      if (icon) icon.classList.toggle("rotate-180");
+
+      // Expand/Collapse logic for the current accordion
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null; // Collapse the current accordion
+        collapseNestedAccordions(content); // Collapse all nested accordions
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px"; // Expand the current accordion
+      }
     });
+  });
+
+  // Function to collapse all nested accordions
+  function collapseNestedAccordions(parentContent) {
+    const nestedContents = parentContent.querySelectorAll(".accordion-collapse");
+    nestedContents.forEach((nested) => {
+      nested.style.maxHeight = null; // Collapse all nested accordions
+      const nestedIcons = nested.parentElement.querySelectorAll("i.rotate-180");
+      nestedIcons.forEach((icon) => icon.classList.remove("rotate-180")); // Reset icon rotation
+    });
+  }
+});
+
+
+        
+function setCategoryAndSubmit(categoryId) {
+      // Set the category value
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'category_level3';
+      input.value = categoryId;
+
+      // Append the input to the form and submit it
+      const form = document.getElementById('filterForm');
+      form.appendChild(input);
+      form.submit();
+  }
+
+
+
 
   </script>
 
