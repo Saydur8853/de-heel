@@ -208,11 +208,11 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl w-full mt-6 mb-5">
         {% for conference in video_conferences %}
         <a href="{{ conference.url }}" target="_blank">
-            <div class="flex flex-col h-[150px] md:h-[220px] mb-10 p-6 bg-green-50 rounded-lg shadow-lg">
+            <div class="flex flex-col h-[150px] md:h-[220px] mb-10 p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer">
                 <p class="text-gray-800 text-xs md:text-base text-center font-semibold">
                     {{ conference.title }}
                 </p>
-                <img src="{% static 'assets/gp1.png' %}" class="w-[80px] mt-5 h-[80px] mx-auto" />
+                <img src="{% static 'assets/gp1.png' %}" class="w-[50px] h-[50px]  md:w-[80px] mt-5 md:h-[80px] mx-auto" />
             </div>
         </a>
         {% endfor %}
@@ -336,78 +336,102 @@
         
         <!-- Main Div -->
         <div 
-        class="flex flex-col mb-10 p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer"
+        class="flex flex-col h-[150px] md:h-[220px] mb-10 p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer"
         onclick="openAppointmentPopup()"
         >
         <p class="text-gray-800 text-center font-semibold">
           Fixed an appointment with factory owner
         </p>
-        <img src="{% static 'assets/gp2.png' %}" class="w-[80px] mt-5 h-[80px] mx-auto" />
+        <img src="{% static 'assets/gp2.png' %}" class="w-[50px] h-[50px]  md:w-[80px] mt-5 md:h-[80px] mx-auto" />
         </div>
 
-        <!-- Popup -->
-        <div id="appointment-popup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-11/12 max-w-md">
-            <form method="POST" action="{% url 'submit_appointment' %}">
-              <h2 class="text-black text-xl font-semibold mb-4">Get your Appointment</h2>
-                {% csrf_token %}
-                <div class="mb-4">
-                    <label for="name" class="block text-gray-700">Name</label>
-                    <input type="text" id="name" name="name" class="text-black w-full border border-gray-300 p-2 rounded" required>
-                </div>
-                <div class="mb-4">
-                  <label for="calendar" class="block text-gray-700">Date and Time</label>
-                  <input 
-                      type="datetime-local" 
-                      id="calendar" 
-                      name="calendar" 
-                      class="text-black w-full border border-gray-300 p-2 rounded" 
-                      required 
-                      min="" 
-                  >
-              </div>
-              <script>
-                // Set the min date for the datetime-local input to the current date and time
-                document.addEventListener("DOMContentLoaded", function() {
-                    const calendarInput = document.getElementById('calendar');
-                    const now = new Date();
-                    const currentDateTime = now.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
-                    
-                    calendarInput.min = currentDateTime;
-                });
-            </script>
-                <div class="mb-4">
-                    <label for="phone_number" class="block text-gray-700">Phone Number</label>
-                    <input type="tel" id="phone_number" name="phone_number" class="text-black w-full border border-gray-300 p-2 rounded" required>
-                </div>
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700">Email (optional)</label>
-                    <input type="email" id="email" name="email" class="text-black w-full border border-gray-300 p-2 rounded">
-                </div>
-                <div class="mb-4">
-                    <label for="short_message" class="block text-gray-700">Short Message</label>
-                    <textarea id="short_message" name="short_message" class="text-black w-full border border-gray-300 p-2 rounded"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded">Submit</button>
-            </form>
-            <button 
-                onclick="closeAppointmentPopup()" 
-                class="mt-4 w-full bg-gray-500 text-white py-2 rounded"
-            >
-                Cancel
-            </button>
-        </div>
-        </div>
+       <!-- Popup -->
+<div id="appointment-popup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" onclick="closeAppointmentPopup(event)">
+  <div class="bg-white mt-6 p-6 rounded-lg shadow-lg w-10/12 max-w-sm" onclick="event.stopPropagation()">
+      <form method="POST" action="{% url 'submit_appointment' %}">
+          <h2 class="text-black text-lg font-semibold mb-3">Get your Appointment</h2>
+          {% csrf_token %}
+          <div class="mb-3">
+              <label for="name" class="block text-gray-700 text-sm">Name</label>
+              <input type="text" id="name" name="name" class="text-black w-full border border-gray-300 p-2 rounded text-sm" required>
+          </div>
+          <div class="mb-3">
+              <label for="calendar" class="block text-gray-700 text-sm">Date and Time</label>
+              <input 
+                  type="datetime-local" 
+                  id="calendar" 
+                  name="calendar" 
+                  class="text-black w-full border border-gray-300 p-2 rounded text-sm" 
+                  required 
+                  min="" 
+              >
+          </div>
+          <script>
+              // Set the min date for the datetime-local input to the current date and time
+              document.addEventListener("DOMContentLoaded", function() {
+                  const calendarInput = document.getElementById('calendar');
+                  const now = new Date();
+                  const currentDateTime = now.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
+                  calendarInput.min = currentDateTime;
+              });
+          </script>
+          <div class="mb-3">
+              <label for="phone_number" class="block text-gray-700 text-sm">Phone Number</label>
+              <input type="tel" id="phone_number" name="phone_number" class="text-black w-full border border-gray-300 p-2 rounded text-sm" required>
+          </div>
+          <div class="mb-3">
+              <label for="email" class="block text-gray-700 text-sm">Email (optional)</label>
+              <input type="email" id="email" name="email" class="text-black w-full border border-gray-300 p-2 rounded text-sm">
+          </div>
+          <div class="mb-3">
+              <label for="short_message" class="block text-gray-700 text-sm">Short Message</label>
+              <textarea id="short_message" name="short_message" class="text-black w-full border border-gray-300 p-2 rounded text-sm"></textarea>
+          </div>
+          <div class="flex justify-between mt-4">
+              <!-- Cancel Button -->
+              <button 
+                  type="button" 
+                  onclick="closeAppointmentPopup()" 
+                  class="bg-red-500 text-white px-3 py-2 rounded text-sm"
+              >
+                  Cancel
+              </button>
+              <!-- Submit Button -->
+              <button 
+                  type="submit" 
+                  class="bg-green-500 text-white px-3 py-2 rounded text-sm"
+              >
+                  Submit
+              </button>
+          </div>
+      </form>
+  </div>
+</div>
+
+<script>
+function openAppointmentPopup() {
+    document.getElementById('appointment-popup').classList.remove('hidden');
+}
+
+function closeAppointmentPopup(event) {
+    const popup = document.getElementById('appointment-popup');
+    // Only close if clicked outside the popup content or on the cancel button
+    if (!event || event.target === popup) {
+        popup.classList.add('hidden');
+    }
+}
+</script>
+
 
 
 
         <!-- call -->
         <a href="tel:{{ contact_us.phone_number }}">
-          <div class="flex flex-col mb-10 p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer">
+          <div class="flex flex-col h-[150px] md:h-[220px] mb-10 p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer">
               <p class="text-gray-800 text-center font-semibold">
                   {{ contact_us.title }}
               </p>
-              <img src="{% static 'assets/gp3.png' %}" class="w-[80px] mt-5 h-[80px] mx-auto" />
+              <img src="{% static 'assets/gp3.png' %}" class="w-[50px] h-[50px]  md:w-[80px] mt-5 md:h-[80px] mx-auto" />
           </div>
       </a>      
       </div>
@@ -418,37 +442,49 @@
 
   <main class="mx-auto p-4">
 
-    <!-- Category -->
-    <div class="max-w-[1200px] mx-auto justify-center items-center">
-      <h1 class="text-4xl font-bold text-center mt-5">Category</h1>
-    
-      {% for category_level1 in category_level1_list %}
-        <p class="text-3xl mb-5">{{ category_level1.name }} <i class="fa fa-arrow-down"></i></p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {% for category_level2 in category_level1.level2_categories.all %}
-            <div class="flex flex-col items-center bg-gray-50 rounded-lg shadow-lg shadow-black/20">
-              <!-- Fixed Image Size -->
-              <img 
-                src="{{ category_level2.image.url }}" 
-                alt="{{ category_level2.name }}" 
-                class="w-48 h-52 object-cover rounded-md"
-              />
-              <div class="grid grid-cols-10 w-full">
-                <div class="col-span-8 flex bg-[#D3E6D8] p-5">
-                  <p class="text-center text-3xl font-semibold text-gray-800">{{ category_level2.name }}</p>
-                </div>
-                <div class="col-span-2 flex items-center justify-center bg-[#7AC47E] p-5">
-                  <a href="{% url 'product' %}?category_level2={{ category_level2.id }}">
-                    <i class="fa-solid text-center fa-arrow-right"></i>
-                  </a>
-                </div>
+<!-- Category -->
+<div class="max-w-[1200px] mx-auto justify-center items-center">
+  <h1 class="text-4xl font-bold text-center mt-5">Category</h1>
+
+  {% for category_level1 in category_level1_list %}
+    <p class="text-3xl mb-[8px] cursor-pointer" onclick="toggleCategoryLevel2({{ category_level1.id }})">
+      {{ category_level1.name }} <i class="fa fa-arrow-down"></i>
+    </p>
+
+    <div id="category-level2-{{ category_level1.id }}" class="category-level2 hidden mb-[10px]">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for category_level2 in category_level1.level2_categories.all %}
+          <div class="flex flex-col items-center bg-gray-50 rounded-lg shadow-lg shadow-black/20">  
+            <img 
+              src="{{ category_level2.image.url }}" 
+              alt="{{ category_level2.name }}" 
+              class="w-48 h-52 object-cover rounded-md"
+            />
+            <div class="grid grid-cols-10 w-full">
+              <div class="col-span-8 flex bg-[#D3E6D8] p-5">
+                <p class="text-center text-3xl font-semibold text-gray-800">{{ category_level2.name }}</p>
+              </div>
+              <div class="col-span-2 flex items-center justify-center bg-[#7AC47E] p-5">
+                <a href="{% url 'product' %}?category_level2={{ category_level2.id }}">
+                  <i class="fa-solid text-center fa-arrow-right"></i>
+                </a>
               </div>
             </div>
-          {% endfor %}
-        </div>
-      {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
     </div>
-    
+  {% endfor %}
+</div>
+
+<script>
+  function toggleCategoryLevel2(categoryId) {
+    var categoryDiv = document.getElementById("category-level2-" + categoryId);
+    categoryDiv.classList.toggle("hidden");
+  }
+</script>
+
+
 
 
 
@@ -1096,7 +1132,7 @@ function setCategoryAndSubmit(categoryId) {
   </script>
 
 <!-- appoinment script -->
-<script>
+<!-- <script>
   function openAppointmentPopup() {
       document.getElementById('appointment-popup').classList.remove('hidden');
   }
@@ -1104,7 +1140,7 @@ function setCategoryAndSubmit(categoryId) {
   function closeAppointmentPopup() {
       document.getElementById('appointment-popup').classList.add('hidden');
   }
-</script>
+</script> -->
 
 </body>
 
