@@ -257,10 +257,27 @@ class Footer(models.Model):
  
 class ContactUs(models.Model):
     title = models.CharField(blank=True, null=True, max_length=100, verbose_name="Title")
-    phone_number = models.CharField(max_length=25, verbose_name="Phone Number")
+    phone_number = models.CharField(blank=True, null=True, max_length=25, verbose_name="Phone Number")
+    company_name = models.CharField(blank=True, null=True, max_length=100, verbose_name="Company Name") 
+    address = models.TextField(blank=True, null=True, verbose_name="Address")
+    api_key = models.CharField(max_length=255, verbose_name="Google Maps API Key", blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True, verbose_name="Latitude")
+    longitude = models.FloatField(blank=True, null=True, verbose_name="Longitude")
+    plus_code = models.CharField(max_length=20, verbose_name="Plus Code", blank=True, null=True)
 
     def __str__(self):
-        return self.title 
+        return self.title or self.company_name
+
+    def get_google_maps_url(self):
+    # Replace with your actual API key
+        api_key = 'YOUR_ACTUAL_GOOGLE_API_KEY'
+        
+        if self.plus_code:
+            return f"https://www.google.com/maps/embed/v1/place?key={api_key}&q={self.plus_code}&zoom=10&maptype=roadmap"
+        elif self.latitude and self.longitude:
+            return f"https://www.google.com/maps/embed/v1/view?key={api_key}&center={self.latitude},{self.longitude}&zoom=10&maptype=roadmap"
+        return None  # Return None if no location data is available
+ 
     
    ###    ########  ########   #######  #### ##    ## ##     ## ######## ##    ## ######## 
   ## ##   ##     ## ##     ## ##     ##  ##  ###   ## ###   ### ##       ###   ##    ##    
@@ -295,3 +312,21 @@ class VideoConference(models.Model):
 
     def __str__(self):
         return self.title
+    
+ ######   #######  ##    ## ########    ###     ######  ########    ########  #######  ########  ##     ## 
+##    ## ##     ## ###   ##    ##      ## ##   ##    ##    ##       ##       ##     ## ##     ## ###   ### 
+##       ##     ## ####  ##    ##     ##   ##  ##          ##       ##       ##     ## ##     ## #### #### 
+##       ##     ## ## ## ##    ##    ##     ## ##          ##       ######   ##     ## ########  ## ### ## 
+##       ##     ## ##  ####    ##    ######### ##          ##       ##       ##     ## ##   ##   ##     ## 
+##    ## ##     ## ##   ###    ##    ##     ## ##    ##    ##       ##       ##     ## ##    ##  ##     ## 
+ ######   #######  ##    ##    ##    ##     ##  ######     ##       ##        #######  ##     ## ##     ## 
+ 
+class CompanyInquiry(models.Model):
+    name = models.CharField(max_length=100)  # New field for name
+    phone_no = models.CharField(max_length=15)
+    email = models.EmailField()
+    location = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Inquiry from {self.name} ({self.email})"

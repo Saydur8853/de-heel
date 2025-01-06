@@ -111,6 +111,32 @@ def mark_appointment_as_viewed(request, appointment_id):
             return JsonResponse({'status': 'error', 'message': 'Appointment not found'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
+@csrf_exempt
+def submit_company_inquiry(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        phone_no = request.POST.get('phone_no')
+        email = request.POST.get('email')
+        location = request.POST.get('location')
+
+        # Basic validation
+        if name and phone_no and email and location:
+            # Save the inquiry
+            CompanyInquiry.objects.create(
+                name=name,
+                phone_no=phone_no,
+                email=email,
+                location=location
+            )
+            messages.success(request, "Your company inquiry has been submitted.")
+        else:
+            messages.error(request, "Please fill in all required fields.")
+
+        return redirect('home')  # Redirect to the home page or another page
+
+    return redirect('home')
+
+
 def about(request):
     banner = AboutUsBanner.objects.last()
     company_voice = CompanyVoice.objects.last()
@@ -191,3 +217,5 @@ def product(request):
    
     }
     return render(request, 'products.html', context)
+
+

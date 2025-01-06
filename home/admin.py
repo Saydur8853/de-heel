@@ -193,7 +193,7 @@ class FooterAdmin(admin.ModelAdmin):
  ######   #######  ##    ##    ##    ##     ##  ######     ##        #######   ######  
 @admin.register(ContactUs)
 class ContactUsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'phone_number')
+    list_display = ('title', 'company_name', 'address', 'phone_number')
     
     
    ###    ########  ########   #######  #### ##    ## ##     ## ######## ##    ## ########    
@@ -224,3 +224,17 @@ class VideoConferenceAdmin(admin.ModelAdmin):
     list_display = ('title', 'url')  # Display these fields in the list view
     search_fields = ('title', 'url')  # Allow searching by title and URL
     list_filter = ('url',)  # Filter by URL if needed
+
+
+ ######   #######  ##    ## ########    ###     ######  ########    ########  #######  ########  ##     ## 
+##    ## ##     ## ###   ##    ##      ## ##   ##    ##    ##       ##       ##     ## ##     ## ###   ### 
+##       ##     ## ####  ##    ##     ##   ##  ##          ##       ##       ##     ## ##     ## #### #### 
+##       ##     ## ## ## ##    ##    ##     ## ##          ##       ######   ##     ## ########  ## ### ## 
+##       ##     ## ##  ####    ##    ######### ##          ##       ##       ##     ## ##   ##   ##     ## 
+##    ## ##     ## ##   ###    ##    ##     ## ##    ##    ##       ##       ##     ## ##    ##  ##     ## 
+ ######   #######  ##    ##    ##    ##     ##  ######     ##       ##        #######  ##     ## ##     ## 
+
+@admin.register(CompanyInquiry)
+class CompanyInquiryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'phone_no', 'email', 'location', 'created_at')
+    search_fields = ('name', 'phone_no', 'email', 'location')
