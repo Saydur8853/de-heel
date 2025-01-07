@@ -448,7 +448,7 @@ function closeAppointmentPopup(event) {
 
   {% for category_level1 in category_level1_list %}
     <p class="text-3xl mb-[8px] cursor-pointer" onclick="toggleCategoryLevel2('{{ category_level1.id }}')">
-      {{ category_level1.name }} <i class="fa fa-arrow-down"></i>
+      {{ category_level1.name }} <i class="ml-5 fa fa-chevron-down"></i>
     </p>
 
     <div id="category-level2-{{ category_level1.id }}" class="category-level2 hidden mb-[10px]">
