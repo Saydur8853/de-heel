@@ -848,13 +848,13 @@ function closeAppointmentPopup(event) {
           <div class="relative">
             <!-- Map Wrapper -->
             <div class="mapswrapper">
-              {% if contact_us.get_google_maps_url %}
+              {% if contact_us.embed_code %}
                 <iframe
                   width="100%"
                   height="450"
                   loading="lazy"
                   allowfullscreen
-                  src="{{ contact_us.get_google_maps_url }}">
+                  src="{{ contact_us.embed_code }}">
                 </iframe>
               {% else %}
                 <p>No location available</p>

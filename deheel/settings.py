@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_URL = os.getenv('BASE_URL')
 CSRF_TRUSTED_ORIGINS = [
     # BASE_URL,
-    'https://ccfd-103-231-176-122.ngrok-free.app', #remove it while production
+    'https://af38-103-141-123-150.ngrok-free.app', #remove it while production
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -1,6 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
 import re
+from bs4 import BeautifulSoup
 YOUTUBE_REGEX = r'^(https?://)?(www\.)?(youtube\.com|youtu\.?be)/.+$'
 
 
@@ -261,23 +262,21 @@ class ContactUs(models.Model):
     company_name = models.CharField(blank=True, null=True, max_length=100, verbose_name="Company Name") 
     address = models.TextField(blank=True, null=True, verbose_name="Address")
     api_key = models.CharField(max_length=255, verbose_name="Google Maps API Key", blank=True, null=True)
-    latitude = models.FloatField(blank=True, null=True, verbose_name="Latitude")
-    longitude = models.FloatField(blank=True, null=True, verbose_name="Longitude")
-    plus_code = models.CharField(max_length=20, verbose_name="Plus Code", blank=True, null=True)
-
+    embed_code = models.CharField(max_length=1000, verbose_name="Embed Code", blank=True, null=True)
+    
+    def save(self, *args, **kwargs):
+        if self.embed_code:
+            # Parse the embed code to extract the src attribute
+            soup = BeautifulSoup(self.embed_code, 'html.parser')
+            iframe = soup.find('iframe')
+            if iframe and iframe.get('src'):
+                self.embed_code = iframe['src']  # Save only the src attribute
+            
+        super().save(*args, **kwargs)
+    
     def __str__(self):
         return self.title or self.company_name
 
-    def get_google_maps_url(self):
-    # Replace with your actual API key
-        api_key = 'YOUR_ACTUAL_GOOGLE_API_KEY'
-        
-        if self.plus_code:
-            return f"https://www.google.com/maps/embed/v1/place?key={api_key}&q={self.plus_code}&zoom=10&maptype=roadmap"
-        elif self.latitude and self.longitude:
-            return f"https://www.google.com/maps/embed/v1/view?key={api_key}&center={self.latitude},{self.longitude}&zoom=10&maptype=roadmap"
-        return None  # Return None if no location data is available
- 
     
    ###    ########  ########   #######  #### ##    ## ##     ## ######## ##    ## ######## 
   ## ##   ##     ## ##     ## ##     ##  ##  ###   ## ###   ### ##       ###   ##    ##    
