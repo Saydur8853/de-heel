@@ -1,0 +1,491 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link
+  rel="stylesheet"
+  href="https://unpkg.com/@material-tailwind/html@latest/styles/material-tailwind.css"
+/>
+</head>
+
+<body class="relative bg-white dark:bg-white">
+    <!-- Header -->
+    <header id="navbar" class="bg-gray-800 bg-opacity-70 text-white fixed w-full top-0 z-50">
+        <div class="container mx-auto flex items-center justify-between p-4">
+            <!-- Logo -->
+            <div class="flex items-center ml-10">
+              <a href="{% url 'home' %}">
+                  {% if footer and footer.logo %}
+                      <img src="{{ footer.logo.url }}" alt="Logo" class="w-[45px] h-[45px] object-contain mr-3">
+                  {% else %}
+                      <span class="text-lg font-bold">Logo</span>
+                  {% endif %}
+              </a>
+          </div>
+          
+
+            <!-- Menu (Desktop) -->
+            <nav class="hidden md:flex space-x-6 uppercase">
+              <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
+              <a href="{% url 'product' %}" class="hover:text-gray-300">Products</a> 
+              <a href="#" class="hover:text-gray-300">Upload Sample</a>
+              <a href="#" class="hover:text-gray-300">Blog</a>
+              <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a> 
+        
+            </nav>
+
+            <!-- Icons and Hamburger -->
+            <div class="flex items-center space-x-4 mr-10">
+                <button class="hover:text-gray-300">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button class="hover:text-gray-300">
+                    <i class="fa-solid fa-phone"></i>
+                </button>
+                <button id="menu-toggle" class="md:hidden hover:text-gray-300 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Overlay -->
+    <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+
+    <!-- Sliding Menu Drawer -->
+    <div id="menu-drawer"
+    class="fixed right-0 w-64 bg-gray-800 bg-opacity-70 transform translate-x-full transition-transform duration-300 ease-in-out z-50 rounded-tl-lg rounded-bl-lg">
+    <div class="p-4 text-white">
+        <button id="menu-close" class="hover:text-gray-300 focus:outline-none mb-4">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+        <nav class="flex flex-col space-y-4">
+            <a href="{% url 'home' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">Home</a>
+            <a href="{% url 'product' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">Products</a>
+            <a href="#" class="hover:text-gray-300">Upload Sample</a>
+            <a href="#" class="hover:text-gray-300">Blog</a>
+            <a href="{% url 'about' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">About US</a>
+        </nav>
+
+        <!-- Category Filter Form -->
+        <section class="mt-4">
+            <form method="get" id="filterForm">
+                <!-- Category Heading (Non-clickable and Bold) -->
+                <h1 class="m-1 rounded-sm bg-[#5ba164] font-bold text-xl text-white text-center">Category</h1>
+
+                <!-- All Products Option -->
+                <div class="accordion-item rounded-sm overflow-hidden">
+                    <button type="submit" name="category" value="all" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                        <span class="py-4 text-xl font-medium">All</span>
+                    </button>
+                </div>
+
+                <!-- Level 1 Categories -->
+                <div class="accordion flex flex-col gap-4">
+                    {% for level1 in level1_categories %}
+                    <div class="accordion-item rounded-sm overflow-hidden">
+                        <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                            <span class="text-xl font-medium text-white">{{ level1.name }}</span>
+                            <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
+                                <i class="fa-solid fa-chevron-down text-white"></i>
+                            </span>
+                        </button>
+                        <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                          <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
+                            <div class="p-6 ">
+                                {% for level2 in level1.level2_categories.all %}
+                                <div class="accordion flex flex-col">
+                                    <div class="accordion-item border-b border-slate-200">
+                                        <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                                            <span class="text-lg font-medium text-white">{{ level2.name }}</span>
+                                            <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
+                                                <i class="fa-solid fa-chevron-down text-white"></i>
+                                            </span>
+                                        </button>
+                                        <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                                          <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
+                                          <div class="pb-2 flex flex-col justify-end items-center">
+                                              <div class="w-2/3 p-2 rounded-md text-white">
+                                                  {% for level3 in level2.level3_categories.all %}
+                                                      <label class="cursor-pointer block pb-2" onclick="setCategoryAndSubmit('{{ level3.id }}')">
+                                                          > {{ level3.name }}
+                                                          <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
+                                                      </label>
+                                                  {% endfor %}
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- End Level 1 Categories -->
+            </form>
+        </section>
+    </div>
+</div>
+
+    <main class="mx-auto p-4 px-28">
+      <!-- Latest Product -->
+      <div class="py-10 max-w-[1200px] grid grid-cols-12 gap-x-8 mx-auto mt-20">
+        <div class="col-span-12 md:col-span-6">
+            <!-- Large Image -->
+            <div class="bg-white p-6 rounded-3xl shadow-lg w-[450px] h-[450px]">
+              <img
+                id="largeImage"
+                src="{{ product.image.url }}"
+                alt="{{ product.name }}"
+                class="w-[400px] h-[400px] object-cover rounded-[20px]"
+              />
+            </div>
+          
+            <!-- Thumbnail Images -->
+            <div class="flex gap-x-4 mt-6">
+                {% if product.image_1 %}
+                  <img
+                    src="{{ product.image_1.url }}"
+                    alt="{{ product.name }}"
+                    class="thumbnail w-[100px] h-[100px] object-cover rounded-[20px] cursor-pointer"
+                  />
+                {% endif %}
+                
+                {% if product.image_2 %}
+                  <img
+                    src="{{ product.image_2.url }}"
+                    alt="{{ product.name }}"
+                    class="thumbnail w-[100px] h-[100px] object-cover rounded-[20px] cursor-pointer"
+                  />
+                {% endif %}
+                
+                {% if product.image_3 %}
+                  <img
+                    src="{{ product.image_3.url }}"
+                    alt="{{ product.name }}"
+                    class="thumbnail w-[100px] h-[100px] object-cover rounded-[20px] cursor-pointer"
+                  />
+                {% endif %}
+                
+                {% if product.image_4 %}
+                  <img
+                    src="{{ product.image_4.url }}"
+                    alt="{{ product.name }}"
+                    class="thumbnail w-[100px] h-[100px] object-cover rounded-[20px] cursor-pointer"
+                  />
+                {% endif %}
+                
+                {% if product.image_5 %}
+                  <img
+                    src="{{ product.image_5.url }}"
+                    alt="{{ product.name }}"
+                    class="thumbnail w-[100px] h-[100px] object-cover rounded-[20px] cursor-pointer"
+                  />
+                {% endif %}
+              </div>
+              
+          </div>
+          
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+            const largeImage = document.getElementById("largeImage");
+            const thumbnails = document.querySelectorAll(".thumbnail");
+
+            thumbnails.forEach((thumbnail) => {
+                thumbnail.addEventListener("click", () => {
+                // Update the large image's src with the clicked thumbnail's src
+                largeImage.src = thumbnail.src;
+                });
+            });
+            });
+        </script>
+        <div class="col-span-12 md:col-span-6">
+          <h3 class="text-4xl font-bold mt-5 tracking-widest capitalize">{{ product.name }}</h3>
+          <p class="w-[70%] leading-loose mt-5 flex items-center">Category: <span class="font-medium ml-4 capitalize">{{product.category}}</span></p>
+          <p class="w-[70%] leading-loose mt-5 flex items-center">Price: <span class="text-green-500 font-semibold text-3xl ml-4">${{ product.price }}</span></p>
+          <div class="w-[70%] leading-loose mt-5 flex items-center">
+            <p class="mr-3">Color: </p>
+            <div class="flex items-center gap-x-3">
+                {% if product.color_1 %}
+                  <p class="w-6 h-6 rounded bg-[{{ product.color_1 }}]"></p>
+                {% endif %}
+                
+                {% if product.color_2 %}
+                  <p class="w-6 h-6 rounded bg-[{{ product.color_2 }}]"></p>
+                {% endif %}
+                
+                {% if product.color_3 %}
+                  <p class="w-6 h-6 rounded bg-[{{ product.color_3 }}]"></p>
+                {% endif %}
+                
+                {% if product.color_4 %}
+                  <p class="w-6 h-6 rounded bg-[{{ product.color_4 }}]"></p>
+                {% endif %}
+                
+                {% if product.color_5 %}
+                  <p class="w-6 h-6 rounded bg-[{{ product.color_5 }}]"></p>
+                {% endif %}
+              </div>              
+          </div>
+          {% if product.size_1 or product.size_2 or product.size_3 or product.size_4 or product.size_5 %}
+            <div class="w-[70%] leading-loose mt-5 flex items-center">
+                <p class="mr-3">Size: </p>
+                <div class="flex items-center gap-x-3">
+                {% if product.size_1 %}
+                    <p class="px-6 py-1 bg-gray-200 rounded-3xl text-gray-600 font-medium">{{ product.size_1 }}</p>
+                {% endif %}
+                
+                {% if product.size_2 %}
+                    <p class="px-6 py-1 bg-gray-200 rounded-3xl text-gray-600 font-medium">{{ product.size_2 }}</p>
+                {% endif %}
+                
+                {% if product.size_3 %}
+                    <p class="px-6 py-1 bg-gray-200 rounded-3xl text-gray-600 font-medium">{{ product.size_3 }}</p>
+                {% endif %}
+                
+                {% if product.size_4 %}
+                    <p class="px-6 py-1 bg-gray-200 rounded-3xl text-gray-600 font-medium">{{ product.size_4 }}</p>
+                {% endif %}
+                
+                {% if product.size_5 %}
+                    <p class="px-6 py-1 bg-gray-200 rounded-3xl text-gray-600 font-medium">{{ product.size_5 }}</p>
+                {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+          <p class="w-[70%] leading-loose mt-5">Stock Quantity: <span class="font-medium ml-4">{{ product.stock }}</span></p>
+          <p class="w-[70%] leading-loose mt-5">MOQ: <span class="font-medium ml-4">{{ product.minimum_order_quantity }}</span></p>
+          <div class="w-[70%] leading-loose mt-5">
+            <h2 class="">Details:</h2>
+          </div>
+          <p class="w-[70%] leading-loose text-justify">{{ product.description }}</p>
+        </div>         
+      </div>
+
+      <div>
+        <h2 class="text-[64px] font-bold mt-16 mb-10 text-center">Recommended Products</h2>
+        <div class="grid grid-cols-4 gap-4 mb-24">
+            {% for recommended in recommended_products %}
+                <a href="{% url 'product_details' recommended.id %}">
+                    <div class="rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl">
+                        <div class="relative">
+                            <img src="{{ recommended.image.url }}" alt="{{ recommended.name }}" class="w-full h-[250px] object-cover">
+                            {% if recommended.minimum_order_quantity %}
+                                <span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-4 py-1 rounded-full">
+                                    MOQ: {{ recommended.minimum_order_quantity }}
+                                </span>
+                            {% endif %}
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold capitalize">{{ recommended.name }}</h3>
+                            <div class="flex justify-between items-center relative">
+                                <p class="text-gray-600 text-sm capitalize">{{ recommended.description|truncatewords:3 }}</p>
+                                <p class="text-green-500 text-xl font-medium">${{ recommended.price }}</p>
+                                <button class="text-green-500 absolute top-[-60px] right-0">
+                                    <i class="fa-solid fa-cart-shopping border-4 relative border-white bg-[#D3E6D8] rounded-full p-3"></i>
+                                    <span class="absolute right-1 bg-red-700 rounded-full text-sm text-white px-1">{{ recommended.stock }}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    
+  </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-[#1E1E1E] text-white py-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-[1400px] p-5 space-y-5 mx-auto">
+        <div class="mx-auto w-full">
+          <h1 class="text-4xl font-bold mt-5 tracking-widest">{{ footer.title }}</h1>
+          <p class="w-[70%] leading-loose mt-5">{{ footer.description }}</p>
+        
+          <ul class="flex flex-row gap-5 mt-5">
+              {% if footer.fb_link %}
+              <li class="bg-white p-3 rounded-full"> 
+                  <a href="{{ footer.fb_link }}" target="_blank"> 
+                      <img src="{% static 'assets/fb.png' %}" />
+                  </a> 
+              </li>
+              {% endif %}
+              
+              {% if footer.twitter_link %}
+              <li class="bg-white p-3 rounded-full"> 
+                  <a href="{{ footer.twitter_link }}" target="_blank"> 
+                      <img src="{% static 'assets/twitter.png' %}" />
+                  </a> 
+              </li>
+              {% endif %}
+              
+              {% if footer.instagram_link %}
+              <li class="bg-white p-3 rounded-full"> 
+                  <a href="{{ footer.instagram_link }}" target="_blank"> 
+                      <img src="{% static 'assets/instagram.png' %}" />
+                  </a> 
+              </li>
+              {% endif %}
+              
+              {% if footer.youtube_link %}
+              <li class="bg-white p-3 rounded-full"> 
+                  <a href="{{ footer.youtube_link }}" target="_blank"> 
+                      <img src="{% static 'assets/youtube.png' %}" />
+                  </a> 
+              </li>
+              {% endif %}
+          </ul>
+      </div>
+      
+  
+      <div class="md:mx-auto">
+        <h1 class="font-semibold text-lg md:text-3xl">Quick Link</h1>
+        <ul class="mt-5 space-y-3">
+            {% for link in footer_links %}
+                <li class="text-base md:text-xl">
+                    <a href="{{ link.url }}" target="_blank">
+                        <span class="text-[#59B55E] font-bold">&gt;</span> {{ link.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    
+    </div>
+  
+      </div>
+    
+      <hr class="border-gray-600 border-t-2 mt-5 mb-3 w-full" />
+      <p class="text-center mx-auto">&copy; 2025 All rights reserved</p>
+    </footer>
+    <script src="../scripts/js/open-modals-on-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+    <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/script-name.js"></script>
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedCategory = urlParams.get('category_level3') || urlParams.get('category_level2') || urlParams.get('category_level1');
+    
+        if (selectedCategory) {
+          const selectedInput = document.querySelector(`input[value="${selectedCategory}"]`);
+          if (selectedInput) {
+            selectedInput.checked = true;
+            let parent = selectedInput.closest('.accordion-collapse');
+            while (parent) {
+              parent.style.maxHeight = parent.scrollHeight + "px";
+              parent = parent.closest('.accordion').previousElementSibling;
+            }
+          }
+        }
+      });
+    </script>
+
+    <!-- Custom Scripts -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const menuDrawer = document.getElementById('menu-drawer');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const navbar = document.getElementById('navbar');
+
+        // Adjust drawer position below the navbar
+        const adjustDrawerPosition = () => {
+            const navbarHeight = navbar.offsetHeight;
+            menuDrawer.style.top = `${navbarHeight}px`;
+        };
+
+        window.addEventListener('resize', adjustDrawerPosition);
+        window.addEventListener('load', adjustDrawerPosition);
+
+        // Open Drawer
+        menuToggle.addEventListener('click', () => {
+            menuDrawer.classList.remove('translate-x-full');
+            menuOverlay.classList.remove('hidden');
+        });
+
+        // Close Drawer on Close Button or Overlay Click
+        const closeDrawer = () => {
+            menuDrawer.classList.add('translate-x-full');
+            menuOverlay.classList.add('hidden');
+        };
+
+        menuClose.addEventListener('click', closeDrawer);
+        menuOverlay.addEventListener('click', closeDrawer);
+
+        document.addEventListener("DOMContentLoaded", () => {
+  const accordionHeaders = document.querySelectorAll(".accordion-header");
+
+  accordionHeaders.forEach((header) => {
+    header.addEventListener("click", (event) => {
+      event.stopPropagation(); // Stop propagation to avoid conflicts
+
+      const parent = header.parentElement; // Current accordion-item
+      const content = parent.querySelector(":scope > .accordion-collapse"); // Immediate accordion-collapse
+
+      // Toggle active state
+      parent.classList.toggle("active");
+
+      // Rotate icon
+      const icon = header.querySelector("i");
+      if (icon) icon.classList.toggle("rotate-180");
+
+      // Expand/Collapse logic for the current accordion
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null; // Collapse the current accordion
+        collapseNestedAccordions(content); // Collapse all nested accordions
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px"; // Expand the current accordion
+      }
+    });
+  });
+
+  // Function to collapse all nested accordions
+  function collapseNestedAccordions(parentContent) {
+    const nestedContents = parentContent.querySelectorAll(".accordion-collapse");
+    nestedContents.forEach((nested) => {
+      nested.style.maxHeight = null; // Collapse all nested accordions
+      const nestedIcons = nested.parentElement.querySelectorAll("i.rotate-180");
+      nestedIcons.forEach((icon) => icon.classList.remove("rotate-180")); // Reset icon rotation
+    });
+  }
+});
+
+
+        
+function setCategoryAndSubmit(categoryId) {
+      // Set the category value
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'category_level3';
+      input.value = categoryId;
+
+      // Append the input to the form and submit it
+      const form = document.getElementById('filterForm');
+      form.appendChild(input);
+      form.submit();
+  }
+
+
+    </script>
+</body>
+
+</html>

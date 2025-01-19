@@ -1,0 +1,218 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>De Heel</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+  </head>
+
+  <style>
+    * {
+      font-family: "Inter", sans-serif;
+    }
+    .brand-bg {
+      background-color: #59b55e;
+    }
+    .brand-text {
+      color: #59b55e;
+    }
+  </style>
+
+  <body class="relative">
+    <!-- Header -->
+    <header
+      id="navbar"
+      class="bg-gray-800 bg-opacity-70 text-white fixed w-full top-0 z-50"
+    >
+      <div class="container mx-auto flex items-center justify-between p-4">
+        <!-- Logo -->
+        <div class="flex items-center ml-10">
+          <a href="{% url 'home' %}">
+            {% if footer and footer.logo %}
+            <img
+              src="{{ footer.logo.url }}"
+              alt="Logo"
+              class="w-[45px] h-[45px] object-contain mr-3"
+            />
+            {% else %}
+            <span class="text-lg font-bold">Logo</span>
+            {% endif %}
+          </a>
+        </div>
+
+        <!-- Menu (Desktop) -->
+        <nav class="hidden md:flex space-x-6 uppercase">
+          <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
+          <a href="{% url 'product' %}" class="hover:text-gray-300">Products</a>
+          <a href="#" class="hover:text-gray-300">Upload Sample</a>
+          <a href="#" class="hover:text-gray-300">Blog</a>
+          <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a>
+        </nav>
+
+        <!-- Icons and Hamburger -->
+        <div class="flex items-center space-x-4 mr-10">
+          <button class="hover:text-gray-300 relative" id="bell-button">
+            <i class="fa-solid fa-bell"></i>
+            {% if new_appointments %}
+            <span
+              class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-ping"
+            ></span>
+            {% endif %}
+          </button>
+
+          {% if new_appointments %}
+          <div
+            id="notification-list"
+            class="hidden absolute top-10 right-0 bg-white shadow-md rounded-lg w-64"
+          >
+            <ul class="p-4">
+              {% for appointment in new_appointments %}
+              <li
+                class="mb-2 border-b border-gray-200 pb-2 text-sm text-gray-600 cursor-pointer {% if not appointment.viewed %}font-bold{% endif %}"
+              >
+                {{ appointment.name }} Appointment on: {{ appointment.calendar
+                }}
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
+          <script>
+            // Toggle visibility of the notification list
+            const bellButton = document.getElementById("bell-button");
+            const notificationList =
+              document.getElementById("notification-list");
+
+            // Show/hide notification list when bell button is clicked
+            bellButton.addEventListener("click", (event) => {
+              event.stopPropagation(); // Prevent closing the list immediately when clicking the button
+              notificationList?.classList.toggle("hidden");
+            });
+
+            // Close notification list when clicking anywhere outside
+            document.addEventListener("click", () => {
+              notificationList?.classList.add("hidden");
+            });
+          </script>
+
+          <div>
+            {% if contact_us.phone_number %}
+            <button class="hover:text-gray-300">
+              <a href="tel:{{ contact_us.phone_number }}">
+                <i class="fa-solid fa-phone"></i>
+              </a>
+            </button>
+            {% endif %}
+          </div>
+
+          <button
+            id="menu-toggle"
+            class="md:hidden hover:text-gray-300 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Overlay -->
+    <div id="menu-overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"
+    ></div>
+
+    <!-- Sliding Menu Drawer -->
+    <!-- <div id="menu-drawer"
+    class="fixed right-0 w-64 bg-gray-800 bg-opacity-70 transform translate-x-full transition-transform duration-300 ease-in-out z-50 rounded-tl-lg rounded-bl-lg">
+    <div class="p-4 text-white">
+      <button id="menu-close" class="hover:text-gray-300 focus:outline-none mb-4">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+      <nav class="flex flex-col space-y-4">
+        <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
+        <a href="{% url 'product' %}" class="hover:text-gray-300">Products</a> 
+        <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a> 
+        
+
+      </nav>
+    </div>
+</div> -->
+    <div
+      id="menu-drawer"
+      class="fixed right-0 w-64 bg-gray-800 bg-opacity-70 transform translate-x-full transition-transform duration-300 ease-in-out z-50 rounded-tl-lg rounded-bl-lg"
+    >
+      <div class="p-4 text-white">
+        <button
+          id="menu-close"
+          class="hover:text-gray-300 focus:outline-none mb-4"
+        >
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+        <nav class="flex flex-col space-y-4">
+          <a
+            href="{% url 'home' %}"
+            class="hover:text-gray-300 border-b border-gray-500 pb-2"
+            >Home</a
+          >
+          <a
+            href="{% url 'product' %}"
+            class="hover:text-gray-300 border-b border-gray-500 pb-2"
+            >Products</a
+          >
+          <a
+            href="#"
+            class="hover:text-gray-300 border-b border-gray-500 pb-2"
+            >Upload Smaple</a
+          >
+          <a
+            href="#"
+            class="hover:text-gray-300 border-b border-gray-500 pb-2"
+            >Blog</a
+          >
+          <a
+            href="{% url 'about' %}"
+            class="hover:text-gray-300 border-b border-gray-500 pb-2"
+            >About Us</a
+          >
+        </nav>
+
+    {% block content %}
+    
+    {% endblock %}
+
+  </body>
+
+  </html>
