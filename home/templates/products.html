@@ -5,6 +5,18 @@
 
 {% block content %}
 
+        <style>
+            /* Hide scrollbar for modern browsers */
+            .no-scrollbar::-webkit-scrollbar {
+            display: none;
+            }
+
+            .no-scrollbar {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+            }
+        </style>
+
         <!-- Category Filter Form -->
         <section class="mt-4">
             <form method="get" id="filterForm">
@@ -12,7 +24,7 @@
                 <!-- <h1 class="m-1 rounded-sm bg-[#5ba164] font-bold text-xl text-white text-center">Category</h1> -->
 
                 <!-- All Products Option -->
-                <div class="accordion-item rounded-sm overflow-hidden">
+                <div class="accordion-item rounded-sm overflow-y-scroll no-scrollbar">
                     <button type="submit" name="category" value="all" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
                         <span class="py-4 text-xl font-medium">All</span>
                     </button>
@@ -21,14 +33,14 @@
                 <!-- Level 1 Categories -->
                 <div class="accordion flex flex-col gap-4">
                     {% for level1 in level1_categories %}
-                    <div class="accordion-item rounded-sm overflow-hidden">
+                    <div class="accordion-item rounded-sm overflow-y-scroll no-scrollbar">
                         <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
                             <span class="text-xl font-medium text-white">{{ level1.name }}</span>
                             <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
                                 <i class="fa-solid fa-chevron-down text-white"></i>
                             </span>
                         </button>
-                        <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                        <div class="accordion-collapse max-h-0 overflow-y-scroll no-scrollbar transition-all duration-300">
                           <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
                             <div class="p-6 ">
                                 {% for level2 in level1.level2_categories.all %}
@@ -40,7 +52,7 @@
                                                 <i class="fa-solid fa-chevron-down text-white"></i>
                                             </span>
                                         </button>
-                                        <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                                        <div class="accordion-collapse max-h-0 overflow-y-scroll no-scrollbar transition-all duration-300">
                                           <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
                                           <div class="pb-2 flex flex-col justify-end items-center">
                                               <div class="w-2/3 p-2 rounded-md text-white">
@@ -82,7 +94,7 @@
                   <!-- <h1 class="text-xl font-bold text-[#5ba164] text-center mb-4">Category</h1> -->
   
                   <!-- All Products Option -->
-                  <div class="accordion-item rounded-sm overflow-hidden">
+                  <div class="accordion-item rounded-sm overflow-y-scroll no-scrollbar">
                       <button type="submit" name="category" value="all" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
                           <span class="py-4 text-xl font-medium">All</span>
                       </button>
@@ -91,14 +103,14 @@
                   <!-- Level 1 Categories -->
                   <div class="accordion flex flex-col gap-4">
                       {% for level1 in level1_categories %}
-                      <div class="accordion-item rounded-sm overflow-hidden">
+                      <div class="accordion-item rounded-sm overflow-y-scroll no-scrollbar">
                           <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
                               <span class="text-xl font-medium text-black capitalize">{{ level1.name }}</span>
                               <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
                                   <i class="fa-solid fa-chevron-down text-black"></i>
                               </span>
                           </button>
-                          <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                          <div class="accordion-collapse max-h-0 overflow-y-scroll no-scrollbar transition-all duration-300">
                               <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
                               <div class="p-6">
                                   {% for level2 in level1.level2_categories.all %}
@@ -110,7 +122,7 @@
                                                   <i class="fa-solid fa-chevron-down text-black"></i>
                                               </span>
                                           </button>
-                                          <div class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300">
+                                          <div class="accordion-collapse max-h-0 overflow-y-scroll no-scrollbar transition-all duration-300">
                                               <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
                                               <div class="pb-2 flex flex-col justify-end items-center">
                                                   <div class="w-2/3 py-2 px-2 rounded-md text-black">
