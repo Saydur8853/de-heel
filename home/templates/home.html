@@ -4,6 +4,18 @@
 
 {% block content %}
 
+<style>
+  /* Hide scrollbar for modern browsers */
+  .no-scrollbar::-webkit-scrollbar {
+  display: none;
+  }
+
+  .no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  }
+</style>
+
         <!-- Category Filter Form -->
         <section class="mt-4">
           <form method="get" id="filterForm">
@@ -14,7 +26,7 @@
             </h1>
 
             <!-- All Products Option -->
-            <div class="accordion-item rounded-sm overflow-hidden">
+            <div class="accordion-item rounded-sm overflow-y-scroll no-scrollbar">
               <button
                 type="submit"
                 name="category"
@@ -26,14 +38,14 @@
             </div>
 
             <!-- Level 1 Categories -->
-            <div class="accordion flex flex-col gap-4">
+            <div class="accordion flex flex-col  overflow-y-scroll no-scrollbar gap-4">
               {% for level1 in level1_categories %}
-              <div class="accordion-item rounded-sm overflow-hidden">
+              <div class="accordion-item rounded-sm overflow-y-scroll no-scrollbar">
                 <button
                   type="button"
                   class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out"
                 >
-                  <span class="text-xl font-medium text-white"
+                  <span class="text-xl font-medium text-white capitalize"
                     >{{ level1.name }}</span
                   >
                   <span
@@ -43,7 +55,7 @@
                   </span>
                 </button>
                 <div
-                  class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300"
+                  class="accordion-collapse max-h-0 overflow-y-scroll no-scrollbar transition-all duration-300"
                 >
                   <span class="block border-b-2 border-green-500 mt-1"></span>
                   <div class="p-6">
@@ -54,7 +66,7 @@
                           type="button"
                           class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out"
                         >
-                          <span class="text-lg font-medium text-white"
+                          <span class="text-lg font-medium text-white capitalize"
                             >{{ level2.name }}</span
                           >
                           <span
@@ -64,7 +76,7 @@
                           </span>
                         </button>
                         <div
-                          class="accordion-collapse max-h-0 overflow-hidden transition-all duration-300"
+                          class="accordion-collapse max-h-0 overflow-y-scroll no-scrollbar transition-all duration-300"
                         >
                           <span
                             class="block border-b-2 border-green-500 mt-1"
@@ -76,7 +88,7 @@
                               {% for level3 in level2.level3_categories.all %}
                               <a
                                 href="{% url 'product' %}?category={{ level3.id }}"
-                                class="block pb-2 cursor-pointer text-white"
+                                class="block pb-2 cursor-pointer text-white capitalize"
                               >
                                 > {{ level3.name }}
                                 <span
@@ -405,10 +417,10 @@
       </div>
     </section>
 
-    <main class="mx-auto my-[100px]">
+    <main class="mx-4 md:mx-auto my-[100px]">
       <!-- Category -->
       <div class="max-w-[1200px] mx-auto justify-center items-center">
-        <h1 class="text-[64px] font-bold text-center mb-[60px]">
+        <h1 class="text-4xl md:text-[64px] font-bold text-center mb-[60px]">
           Our Products
         </h1>
 
@@ -472,7 +484,7 @@
       <!-- Latest Product -->
 
       <div class="py-10 max-w-[1200px] mx-auto">
-        <h2 class="text-[64px] font-bold text-center mb-12">Latest Product</h2>
+        <h2 class="text-4xl md:text-[64px] font-bold text-center mb-12">Latest Product</h2>
 
         <div
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
@@ -527,7 +539,7 @@
       <div class="my-[100px] max-w-[1200px] mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div>
-            <h1 class="text-center mt-5 font-bold text-[64px] mb-3">
+            <h1 class="text-center mt-5 font-bold text-4xl md:text-[64px] mb-3">
               About Us
             </h1>
             <p class="leading-loose text-center">
@@ -554,7 +566,7 @@
       <!-- Strength -->
 
       <div class="my-[100px] max-w-[1200px] mx-auto">
-        <h1 class="text-[64px] font-bold text-center">Our Strength</h1>
+        <h1 class="text-4xl md:text-[64px] font-bold text-center">Our Strength</h1>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10 py-10">
           {% for strength in strengths %}
@@ -585,7 +597,7 @@
           </div>
 
           <div>
-            <h1 class="text-center mt-5 font-bold text-[64px] mb-3">
+            <h1 class="text-center mt-5 font-bold text-4xl md:text-[64px] mb-3">
               Factory Details
             </h1>
             <p class="leading-loose text-center">
@@ -608,7 +620,7 @@
       <!-- Achievement Carousel Section -->
 
       <div class="my-[100px] max-w-[1200px] mx-auto overflow-hidden">
-        <h2 class="text-center mt-5 mb-16 font-bold text-2xl md:text-[64px]">
+        <h2 class="text-center mt-5 mb-16 font-bold text-4xl md:text-[64px]">
           Achievement
         </h2>
         <section class="my-0">
@@ -637,7 +649,7 @@
 
       <!--Branch Section -->
       <div class="my-[100px] max-w-[1200px] mx-auto">
-        <h1 class="text-[64px] font-semibold text-center mt-5 mb-10">
+        <h1 class=" text-4xl md:text-[64px] font-semibold text-center mt-5 mb-10">
           OUR BRANCHES
         </h1>
         <div
@@ -665,7 +677,7 @@
 
       <!-- Gallery Section -->
       <div class="my-[100px] max-w-full mx-auto">
-        <h1 class="text-[64px] font-bold text-center mt-0 mb-10">
+        <h1 class="text-4xl md:text-[64px] font-bold text-center mt-0 mb-10">
           Our Gallery
         </h1>
 
@@ -888,7 +900,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2">
           <div class="bg-[#1E1E1E]">
             <h1
-              class="text-center uppercase font-bold text-[64px] mt-10 text-white"
+              class="text-center uppercase font-bold text-4xl md:text-[64px] mt-10 text-white"
             >
               Contact us
             </h1>
