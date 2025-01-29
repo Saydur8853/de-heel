@@ -37,11 +37,10 @@
             <nav class="hidden md:flex space-x-6 uppercase">
                 <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
                 <a href="{% url 'product' %}" class="hover:text-gray-300">Products</a>
-                <a href="#" class="hover:text-gray-300">Blog</a>
-                <a href="#achievements" class="hover:text-gray-300">Achievements</a>
-                <a href="#branches" class="hover:text-gray-300">Branches</a>
-                <a href="#gallery" class="hover:text-gray-300">Gallery</a>
-                <a href="#contact" class="hover:text-gray-300">Contact Us</a>
+                <a href="{% url 'home' %}#achievements" class="hover:text-gray-300">Achievements</a>
+                <a href="{% url 'home' %}#branches" class="hover:text-gray-300">Branches</a>
+                <a href="{% url 'home' %}#gallery" class="hover:text-gray-300">Gallery</a>
+                <a href="{% url 'home' %}#contact" class="hover:text-gray-300">Contact Us</a>
                 <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a>
               </nav>
 
@@ -89,9 +88,13 @@
             <i class="fa-solid fa-xmark text-xl"></i>
         </button>
         <nav class="flex flex-col space-y-4">
-            <a href="{% url 'home' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">Home</a>
-            <a href="{% url 'product' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">Products</a>
-            <a href="{% url 'about' %}" class="hover:text-gray-300 border-b border-gray-500 pb-2">About Us</a>
+            <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
+            <a href="{% url 'product' %}" class="hover:text-gray-300">Products</a>
+            <a href="{% url 'home' %}#achievements" class="hover:text-gray-300">Achievements</a>
+            <a href="{% url 'home' %}#branches" class="hover:text-gray-300">Branches</a>
+            <a href="{% url 'home' %}#gallery" class="hover:text-gray-300">Gallery</a>
+            <a href="{% url 'home' %}#contact" class="hover:text-gray-300">Contact Us</a>
+            <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a>
         </nav>
 
         <!-- Category Filter Form -->
