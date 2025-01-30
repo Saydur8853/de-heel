@@ -91,8 +91,7 @@
               <li
                 class="mb-2 border-b border-gray-200 pb-2 text-sm text-gray-600 cursor-pointer {% if not appointment.viewed %}font-bold{% endif %}"
               >
-                {{ appointment.name }} Appointment on: {{ appointment.calendar
-                }}
+                {{ appointment.name }} Appointment on: {{ appointment.calendar }}
               </li>
               {% endfor %}
             </ul>
@@ -155,42 +154,19 @@
       class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"
     ></div>
 
-    <!-- Sliding Menu Drawer -->
-    <!-- <div id="menu-drawer"
-    class="fixed right-0 w-64 bg-gray-800 bg-opacity-70 transform translate-x-full transition-transform duration-300 ease-in-out z-50 rounded-tl-lg rounded-bl-lg">
+<div id="menu-drawer" class="fixed right-0 w-64 bg-gray-800 bg-opacity-85 transform translate-x-full transition-transform duration-300 ease-in-out z-50 rounded-tl-lg rounded-bl-lg max-h-screen overflow-y-auto">
     <div class="p-4 text-white">
-      <button id="menu-close" class="hover:text-gray-300 focus:outline-none mb-4">
-        <i class="fa-solid fa-xmark text-xl"></i>
-      </button>
-
-      <nav class="flex flex-col space-y-4">
-        <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
-        <a href="{% url 'product' %}" class="hover:text-gray-300">Products</a> 
-        <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a> 
-        
-
-      </nav>
-    </div>
-</div> -->
-    <div
-      id="menu-drawer"
-      class="fixed right-0 overflow-y-scroll w-64 bg-gray-800 bg-opacity-70 transform translate-x-full transition-transform duration-300 ease-in-out z-50 rounded-tl-lg rounded-bl-lg"
-    >
-      <div class="p-4 text-white">
-        <button
-          id="menu-close"
-          class="hover:text-gray-300 focus:outline-none mb-4"
-        >
-          <i class="fa-solid fa-xmark text-xl"></i>
+        <button id="menu-close" class="hover:text-gray-300 focus:outline-none mb-4">
+            <i class="fa-solid fa-xmark text-xl"></i>
         </button>
         <nav class="flex flex-col space-y-4">
-          <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
-          <a href="{% url 'product' %}" class="hover:text-gray-300">Products</a>
-          <a href="{% url 'home' %}#achievements" class="hover:text-gray-300">Achievements</a>
-          <a href="{% url 'home' %}#branches" class="hover:text-gray-300">Branches</a>
-          <a href="{% url 'home' %}#gallery" class="hover:text-gray-300">Gallery</a>
-          <a href="{% url 'home' %}#contact" class="hover:text-gray-300">Contact Us</a>
-          <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a>
+            <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
+            <a href="{% url 'product' %}" class="hover:text-gray-300">Products</a>
+            <a href="{% url 'home' %}#achievements" class="hover:text-gray-300">Achievements</a>
+            <a href="{% url 'home' %}#branches" class="hover:text-gray-300">Branches</a>
+            <a href="{% url 'home' %}#gallery" class="hover:text-gray-300">Gallery</a>
+            <a href="{% url 'home' %}#contact" class="hover:text-gray-300">Contact Us</a>
+            <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a>
         </nav>
 
     {% block content %}

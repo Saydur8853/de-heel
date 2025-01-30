@@ -18,69 +18,60 @@
         </style>
 
         <!-- Category Filter Form -->
-        <section class="mt-4">
-            <form method="get" id="filterForm">
-                <!-- Category Heading (Non-clickable and Bold) -->
-                <!-- <h1 class="m-1 rounded-sm bg-[#5ba164] font-bold text-xl text-white text-center">Category</h1> -->
-
-                <!-- All Products Option -->
-                <div class="accordion-item rounded-sm overflow-y-scroll no-scrollbar">
-                    <button type="submit" name="category" value="all" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
-                        <span class="py-4 text-xl font-medium">All</span>
+        <section class="mt-4 pb-12.5"> <!-- Changed pb-10 to pb-12.5 (10px) -->
+        <form method="get" id="filterForm">
+            <h1 class="m-1 rounded-sm bg-[#5ba164] font-bold text-xl text-white text-center">Category</h1>
+            
+            <!-- Placeholder for All Products Option -->
+            <div class="h-8"></div>
+            
+            <!-- Level 1 Categories -->
+            <div class="accordion flex flex-col gap-4">
+                {% for level1 in level1_categories %}
+                <div class="accordion-item rounded-sm overflow-hidden">
+                    <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                        <span class="text-xl font-medium text-white">{{ forloop.counter }}. {{ level1.name }}</span>
                     </button>
-                </div>
-
-                <!-- Level 1 Categories -->
-                <div class="accordion flex flex-col overflow-y-scroll no-scrollbar gap-4">
-                    {% for level1 in level1_categories %}
-                    <div class="accordion-item rounded-sm overflow-y-scroll no-scrollbar">
-                        <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
-                            <span class="text-xl font-medium text-white capitalize">{{ level1.name }}</span>
-                            <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
-                                <i class="fa-solid fa-chevron-down text-white"></i>
-                            </span>
-                        </button>
-                        <div class="accordion-collapse max-h-0 overflow-y-scroll no-scrollbar transition-all duration-300">
-                          <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
-                            <div class="p-6 ">
-                                {% for level2 in level1.level2_categories.all %}
-                                <div class="accordion flex flex-col overflow-y-scroll no-scrollbar">
-                                    <div class="accordion-item border-b border-slate-200">
-                                        <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
-                                            <span class="text-lg font-medium text-white capitalize">{{ level2.name }}</span>
-                                            <span class="shrink-0 text-2xl transition-transform duration-300 group-[.active]:rotate-180">
-                                                <i class="fa-solid fa-chevron-down text-white"></i>
-                                            </span>
-                                        </button>
-                                        <div class="accordion-collapse max-h-0 overflow-y-scroll no-scrollbar transition-all duration-300">
-                                          <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
-                                          <div class="pb-2 flex flex-col justify-end items-center">
-                                              <div class="w-2/3 p-2 rounded-md text-white">
-                                                  {% for level3 in level2.level3_categories.all %}
-                                                      <label class="cursor-pointer block pb-2 capitalize" onclick="setCategoryAndSubmit('{{ level3.id }}')">
-                                                          > {{ level3.name }}
-                                                          <span class="block border-b-2 border-green-500 mt-1"></span> <!-- Green line -->
-                                                      </label>
-                                                  {% endfor %}
-                                              </div>
-                                          </div>
-                                      </div>
+                    <div class="accordion-collapse transition-all duration-300">
+                        <div class="p-6">
+                            {% for level2 in level1.level2_categories.all %}
+                            <div class="accordion flex flex-col">
+                                <div class="accordion-item border-b border-slate-200">
+                                    <button type="button"
+                                        class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
+                                        <span class="text-lg font-medium text-white">{{ level2.name }}</span>
+                                        <i class="fa fa-chevron-down text-white"></i>
+                                    </button>
+                                    <div class="accordion-collapse transition-all duration-300 max-h-0 overflow-hidden">
+                                        <div class="pb-2 flex flex-col justify-end items-center">
+                                            <div class="w-2/3 p-2 rounded-md text-white">
+                                                {% for level3 in level2.level3_categories.all %}
+                                                <a href="{% url 'product' %}?category={{ level3.id }}" class="block pb-2 cursor-pointer text-white">
+                                                    > {{ level3.name }}
+                                                </a>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                {% endfor %}
                             </div>
+                            {% endfor %}
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
-                <!-- End Level 1 Categories -->
-            </form>
-        </section>
+                {% endfor %}
+            </div>
+            <!-- End Level 1 Categories -->
+        </form>
+    </section>
+    <!-- Happy customer text -->
+    <div class="mt-4 pt-5 pb-5 text-center text-white font-medium">
+        Happy customer
+    </div>
+
+
     </div>
 </div>
-
-
-
 
 
     <!-- Banner -->
@@ -176,6 +167,7 @@
       </div>
   </main>
 
+
     <!-- Footer Section -->
     <footer class="bg-[#1E1E1E] text-white py-10">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-[1400px] p-5 space-y-5 mx-auto">
@@ -240,115 +232,187 @@
       <hr class="border-gray-600 border-t-2 mt-5 mb-3 w-full" />
       <p class="text-center mx-auto">&copy; 2025 All rights reserved</p>
     </footer>
-    <script src="../scripts/js/open-modals-on-init.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-    <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/script-name.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
+<script>
+  // 1. Drawer and Modal Setup
+  const menuToggle = document.getElementById("menu-toggle");
+  const menuClose = document.getElementById("menu-close");
+  const menuDrawer = document.getElementById("menu-drawer");
+  const menuOverlay = document.getElementById("menu-overlay");
+  const navbar = document.getElementById("navbar");
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const selectedCategory = urlParams.get('category_level3') || urlParams.get('category_level2') || urlParams.get('category_level1');
-    
-        if (selectedCategory) {
-          const selectedInput = document.querySelector(`input[value="${selectedCategory}"]`);
-          if (selectedInput) {
-            selectedInput.checked = true;
-            let parent = selectedInput.closest('.accordion-collapse');
-            while (parent) {
-              parent.style.maxHeight = parent.scrollHeight + "px";
-              parent = parent.closest('.accordion').previousElementSibling;
-            }
-          }
-        }
-      });
-    </script>
+  // Adjust Drawer position to be below the navbar
+  const adjustDrawerPosition = () => {
+    const navbarHeight = navbar.offsetHeight;
+    menuDrawer.style.top = `${navbarHeight}px`;
+  };
 
-    <!-- Custom Scripts -->
-    <script>
-        const menuToggle = document.getElementById('menu-toggle');
-        const menuClose = document.getElementById('menu-close');
-        const menuDrawer = document.getElementById('menu-drawer');
-        const menuOverlay = document.getElementById('menu-overlay');
-        const navbar = document.getElementById('navbar');
+  window.addEventListener("resize", adjustDrawerPosition);
+  window.addEventListener("load", adjustDrawerPosition);
 
-        // Adjust drawer position below the navbar
-        const adjustDrawerPosition = () => {
-            const navbarHeight = navbar.offsetHeight;
-            menuDrawer.style.top = `${navbarHeight}px`;
-        };
+  // Open Menu Drawer
+  menuToggle.addEventListener("click", () => {
+    menuDrawer.classList.remove("translate-x-full");
+    menuOverlay.classList.remove("hidden");
+  });
 
-        window.addEventListener('resize', adjustDrawerPosition);
-        window.addEventListener('load', adjustDrawerPosition);
+  // Close Menu Drawer
+  const closeDrawer = () => {
+    menuDrawer.classList.add("translate-x-full");
+    menuOverlay.classList.add("hidden");
+  };
 
-        // Open Drawer
-        menuToggle.addEventListener('click', () => {
-            menuDrawer.classList.remove('translate-x-full');
-            menuOverlay.classList.remove('hidden');
-        });
+  menuClose.addEventListener("click", closeDrawer);
+  menuOverlay.addEventListener("click", closeDrawer);
 
-        // Close Drawer on Close Button or Overlay Click
-        const closeDrawer = () => {
-            menuDrawer.classList.add('translate-x-full');
-            menuOverlay.classList.add('hidden');
-        };
-
-        menuClose.addEventListener('click', closeDrawer);
-        menuOverlay.addEventListener('click', closeDrawer);
-
-        document.addEventListener("DOMContentLoaded", () => {
-  const accordionHeaders = document.querySelectorAll(".accordion-header");
-
-  accordionHeaders.forEach((header) => {
-    header.addEventListener("click", (event) => {
-      event.stopPropagation(); // Stop propagation to avoid conflicts
-
-      const parent = header.parentElement; // Current accordion-item
-      const content = parent.querySelector(":scope > .accordion-collapse"); // Immediate accordion-collapse
-
-      // Toggle active state
-      parent.classList.toggle("active");
-
-      // Rotate icon
-      const icon = header.querySelector("i");
-      if (icon) icon.classList.toggle("rotate-180");
-
-      // Expand/Collapse logic for the current accordion
-      if (content.style.maxHeight) {
-        content.style.maxHeight = null; // Collapse the current accordion
-        collapseNestedAccordions(content); // Collapse all nested accordions
-      } else {
-        content.style.maxHeight = content.scrollHeight + "px"; // Expand the current accordion
+  // Modal Handling
+  document.querySelectorAll("[data-dialog-target]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const modalId = button.getAttribute("data-dialog-target");
+      const backdrop = document.querySelector(
+        `[data-dialog-backdrop="${modalId}"]`
+      );
+      if (backdrop) {
+        backdrop.classList.remove("pointer-events-none", "opacity-0");
+        backdrop.classList.add("opacity-100", "pointer-events-auto");
       }
     });
   });
 
-  // Function to collapse all nested accordions
-  function collapseNestedAccordions(parentContent) {
-    const nestedContents = parentContent.querySelectorAll(".accordion-collapse");
-    nestedContents.forEach((nested) => {
-      nested.style.maxHeight = null; // Collapse all nested accordions
-      const nestedIcons = nested.parentElement.querySelectorAll("i.rotate-180");
-      nestedIcons.forEach((icon) => icon.classList.remove("rotate-180")); // Reset icon rotation
+  // Close Modal
+  document.querySelectorAll("[data-dialog-close]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const modal = button.closest("[data-dialog-backdrop]");
+      if (modal) {
+        modal.classList.add("pointer-events-none", "opacity-0");
+        modal.classList.remove("opacity-100", "pointer-events-auto");
+      }
     });
+  });
+
+  // Close Modal on Backdrop Click
+  document
+    .querySelectorAll('[data-dialog-backdrop-close="true"]')
+    .forEach((backdrop) => {
+      backdrop.addEventListener("click", (event) => {
+        if (event.target === backdrop) {
+          backdrop.classList.add("pointer-events-none", "opacity-0");
+          backdrop.classList.remove("opacity-100", "pointer-events-auto");
+        }
+      });
+    });
+
+  // 2. Swiper (Achievement Carousel)
+  document.addEventListener("DOMContentLoaded", () => {
+    const carousel3Dswiper = new Swiper(".carousel-3D-swiper", {
+      loop: true,
+      effect: "coverflow",
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: 4,
+      coverflowEffect: {
+        rotate: 0,
+        stretch: 0,
+        depth: 350,
+        modifier: 1,
+        slideShadows: true,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      autoplay: {
+        delay: 2000,
+        disableOnInteraction: false,
+      },
+      breakpoints: {
+        0: {
+          slidesPerView: 1.5,
+          coverflowEffect: { depth: 200, stretch: 50 },
+        },
+        768: {
+          slidesPerView: 2.5,
+          coverflowEffect: { depth: 300, stretch: 30 },
+        },
+        1024: {
+          slidesPerView: 4,
+          coverflowEffect: { depth: 350, stretch: 0 },
+        },
+      },
+    });
+  });
+
+  // 3. Accordion Toggle with Scroll and Level-Off
+  document.addEventListener("DOMContentLoaded", () => {
+    const accordionHeaders = document.querySelectorAll(".accordion-header");
+
+    accordionHeaders.forEach((header) => {
+      header.addEventListener("click", (event) => {
+        event.stopPropagation(); // Stop propagation to avoid conflicts
+
+        const parent = header.parentElement;
+        const content = parent.querySelector(":scope > .accordion-collapse");
+
+        // Collapse other open accordion items
+        const allAccordions = document.querySelectorAll(".accordion-item");
+        allAccordions.forEach((accordion) => {
+          if (accordion !== parent && accordion.classList.contains("active")) {
+            const otherContent = accordion.querySelector(":scope > .accordion-collapse");
+            otherContent.style.maxHeight = null; // Collapse the other accordion
+            accordion.classList.remove("active");
+            const icon = accordion.querySelector("i");
+            if (icon) icon.classList.remove("rotate-180");
+          }
+        });
+
+        // Toggle active state for the current accordion
+        parent.classList.toggle("active");
+
+        // Rotate icon
+        const icon = header.querySelector("i");
+        if (icon) icon.classList.toggle("rotate-180");
+
+        // Expand/Collapse logic for the current accordion
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null; // Collapse the current accordion
+          collapseNestedAccordions(content);
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px"; // Expand the current accordion
+          ensureScroll(content); // Ensure scroll for expanded content
+        }
+      });
+    });
+
+    // Function to collapse all nested accordions within the current expanded item
+    function collapseNestedAccordions(parentContent) {
+      const nestedContents = parentContent.querySelectorAll(".accordion-collapse");
+      nestedContents.forEach((nested) => {
+        nested.style.maxHeight = null; // Collapse nested items
+        const nestedIcons = nested.parentElement.querySelectorAll("i.rotate-180");
+        nestedIcons.forEach((icon) => icon.classList.remove("rotate-180"));
+      });
+    }
+
+    // Function to ensure content scrolls when expanded
+    function ensureScroll(content) {
+      content.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+
+  // 4. Set Category on Submit
+  function setCategoryAndSubmit(categoryId) {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "category_level3";
+    input.value = categoryId;
+
+    const form = document.getElementById("filterForm");
+    form.appendChild(input);
+    form.submit();
   }
-});
+  
+</script>
 
-        
-function setCategoryAndSubmit(categoryId) {
-      // Set the category value
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = 'category_level3';
-      input.value = categoryId;
-
-      // Append the input to the form and submit it
-      const form = document.getElementById('filterForm');
-      form.appendChild(input);
-      form.submit();
-  }
-
-
-    </script>
 
     {% endblock %}

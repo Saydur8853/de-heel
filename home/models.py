@@ -84,7 +84,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200, verbose_name="Product Name")
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, verbose_name="Product Price")
-    image = models.ImageField(blank=True, null=True, upload_to='products/', verbose_name="Product Image")
+    image = models.ImageField(upload_to='products/', verbose_name="Product Image")
     category = models.ForeignKey('CategoryLevel3', on_delete=models.CASCADE, related_name='products', verbose_name="Category")
     stock = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name="Stock Quantity")
     latest = models.BooleanField(default=False, verbose_name="Latest Product")
