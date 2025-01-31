@@ -51,10 +51,10 @@
             <img
               src="{{ footer.logo.url }}"
               alt="Logo"
-              class="w-[45px] h-[45px] object-contain mr-3"
+              class="w-[100px] h-[45px] object-contain mr-3"
             />
             {% else %}
-            <span class="text-lg font-bold">Logo</span>
+            <span class="text-xl font-bold">Logo</span>
             {% endif %}
           </a>
         </div>
@@ -168,6 +168,8 @@
             <a href="{% url 'home' %}#contact" class="hover:text-gray-300">Contact Us</a>
             <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a>
         </nav>
+
+        
 
     {% block content %}
     

@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from .models import *
+from django.core.paginator import Paginator
 
 def home(request):
     banner = BannerModel.objects.last()
@@ -156,6 +157,7 @@ def about(request):
     category_level2 = request.GET.get('category_level2')
     category_level3 = request.GET.get('category_level3')
     category_all = request.GET.get('category')
+    video_conferences = VideoConference.objects.all()
     
     if category_all == "all":
         pass
@@ -180,9 +182,12 @@ def about(request):
         'footer_links': footer_links,
         'level1_categories': level1_categories,
         'products': products,
+        'video_conferences': video_conferences,
     }
     return render(request, 'about.html', context)
 
+
+from django.core.paginator import Paginator
 
 def product(request):
     level1_categories = CategoryLevel1.objects.prefetch_related('level2_categories__level3_categories')
@@ -192,30 +197,42 @@ def product(request):
     category_all = request.GET.get('category')
 
     footer = Footer.objects.first()
-    footer_links = FooterLink.objects.all() 
-
-    # products = Product.objects.order_by('-id')
-    products = Product.objects.all()
-
+    footer_links = FooterLink.objects.all()
     contact_us = ContactUs.objects.first()
 
+    # Start by getting all products
+    products = Product.objects.all()
+
+    # Apply filtering based on category level
     if category_all == "all":
         pass
     elif category_level3:
+        # Filter by level 3 category
         products = products.filter(category_id=category_level3)
     elif category_level2:
+        # Filter by level 2 category
         products = products.filter(category__parent_id=category_level2)
     elif category_level1:
+        # Filter by level 1 category
         products = products.filter(category__parent__parent_id=category_level1)
+
+    # Pagination
+    paginator = Paginator(products, 25)  # Show 30 products per page
+    page_number = request.GET.get('page')  # Get the current page number from the URL query params
+    page_obj = paginator.get_page(page_number)
+    video_conferences = VideoConference.objects.all()
 
     context = {
         'level1_categories': level1_categories,
-        'products': products,
+        'products': page_obj,  # Pass the page object to the template
         'footer': footer,
         'footer_links': footer_links,
         'contact_us': contact_us,
+        'video_conferences': video_conferences,
     }
+
     return render(request, 'products.html', context)
+
 
 def product_details(request, id):
     product = get_object_or_404(Product, id=id)
@@ -224,6 +241,7 @@ def product_details(request, id):
     contact_us = ContactUs.objects.first()
     
     recommended_products = Product.objects.filter(recommend=True).exclude(id=product.id)[:4]
+    video_conferences = VideoConference.objects.all()
     
     context = {
         'product': product,
@@ -231,6 +249,7 @@ def product_details(request, id):
         'footer_links': footer_links,
         'contact_us': contact_us,
         'recommended_products': recommended_products,
+        'video_conferences': video_conferences,
       
     }
     return render(request, 'product-details.html', context)

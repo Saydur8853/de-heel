@@ -206,7 +206,7 @@ class ContactUsAdmin(admin.ModelAdmin):
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ("viewed", 'name', 'calendar', 'phone_number', 'email', 'short_message')
+    list_display = ('name', 'calendar', 'phone_number', 'email', 'short_message')
     list_filter = ('calendar',)
     search_fields = ('name', 'phone_number', 'email')
     ordering = ('-calendar',)  # Orders by most recent appointments

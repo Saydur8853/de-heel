@@ -24,13 +24,17 @@
             <!-- Logo -->
             <div class="flex items-center ml-10">
                 <a href="{% url 'home' %}">
-                    {% if footer and footer.logo %}
-                        <img src="{{ footer.logo.url }}" alt="Logo" class="w-[45px] h-[45px] object-contain mr-3">
-                    {% else %}
-                        <span class="text-lg font-bold">Logo</span>
-                    {% endif %}
+                  {% if footer and footer.logo %}
+                  <img
+                    src="{{ footer.logo.url }}"
+                    alt="Logo"
+                    class="w-[100px] h-[45px] object-contain mr-3"
+                  />
+                  {% else %}
+                  <span class="text-xl font-bold">Logo</span>
+                  {% endif %}
                 </a>
-            </div>
+              </div>
             
 
             <!-- Menu (Desktop) -->
@@ -83,59 +87,6 @@
             <a href="{% url 'about' %}" class="hover:text-gray-300">About US</a>
         </nav>
 
-        <!-- Category Filter Form -->
-        <section class="mt-4 pb-12.5"> <!-- Changed pb-10 to pb-12.5 (10px) -->
-        <form method="get" id="filterForm">
-            <h1 class="m-1 rounded-sm bg-[#5ba164] font-bold text-xl text-white text-center">Category</h1>
-            
-            <!-- Placeholder for All Products Option -->
-            <div class="h-8"></div>
-            
-            <!-- Level 1 Categories -->
-            <div class="accordion flex flex-col gap-4">
-                {% for level1 in level1_categories %}
-                <div class="accordion-item rounded-sm overflow-hidden">
-                    <button type="button" class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
-                        <span class="text-xl font-medium text-white">{{ forloop.counter }}. {{ level1.name }}</span>
-                    </button>
-                    <div class="accordion-collapse transition-all duration-300">
-                        <div class="p-6">
-                            {% for level2 in level1.level2_categories.all %}
-                            <div class="accordion flex flex-col">
-                                <div class="accordion-item border-b border-slate-200">
-                                    <button type="button"
-                                        class="accordion-header flex justify-between gap-2 items-center w-full group transition-all duration-300 ease-in-out">
-                                        <span class="text-lg font-medium text-white">{{ level2.name }}</span>
-                                        <i class="fa fa-chevron-down text-white"></i>
-                                    </button>
-                                    <div class="accordion-collapse transition-all duration-300 max-h-0 overflow-hidden">
-                                        <div class="pb-2 flex flex-col justify-end items-center">
-                                            <div class="w-2/3 p-2 rounded-md text-white">
-                                                {% for level3 in level2.level3_categories.all %}
-                                                <a href="{% url 'product' %}?category={{ level3.id }}" class="block pb-2 cursor-pointer text-white">
-                                                    > {{ level3.name }}
-                                                </a>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <!-- End Level 1 Categories -->
-        </form>
-    </section>
-    <!-- Happy customer text -->
-    <div class="mt-4 pt-5 pb-5 text-center text-white font-medium">
-        Happy customer
-    </div>
-
-
     </div>
 </div>
 
@@ -148,9 +99,10 @@
         style="background-image: url('{{ banner.image.url }}');">
         <div class="absolute inset-0 bg-black opacity-50"></div>
         <div class="relative z-10 flex flex-col justify-start max-w-[1500px] mx-auto text-white h-full space-y-6 px-4">
-            <h2 class="text-3xl md:text-5xl font-bold uppercase mt-[250px] mx-auto">
+            <h2 class="text-[36px] sm:text-[24px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-bold uppercase mt-[250px] mx-auto">
                 {{ banner.title|default:"Default Title" }}
-            </h2>
+              </h2>
+              
             <p class="max-w-3xl leading-loose text-sm md:text-sm text-center mx-auto mb-48">
                 {{ banner.subtitle|default:"Default Subtitle" }}
             </p>
@@ -162,12 +114,14 @@
         <!-- About Shoes -->
         <div class="py-10 max-w-[1200px] mx-auto">
             {% if company_voice %}
-            <h1 class="font-bold text-5xl text-center">
-                {{ company_voice.title|default:"Default Title" }}
-            </h1>
-            <p class="mt-5 w-2/3 leading-loose text-center text-xs lg:leading-loose lg:text-base mx-auto">
+            <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-bold text-center">
+                {{ company_voice.title|default:"Default Title"|title }}
+              </h1>              
+                            
+              <p class="mt-5 s leading-loose text-center text-xs lg:leading-loose lg:text-base mx-auto px-2 sm:px-2 md:px-10 lg:px-12">
                 {{ company_voice.text|default:"Default text will go here" }}
             </p>
+            
             {% endif %}
         </div>
         
@@ -183,9 +137,10 @@
         
                 <!-- Text Section -->
                 <div>
-                    <h1 class="text-center sm:mt-0 lg:mt-10 font-bold text-5xl mb-5">
-                        {{ factory_detail.title|default:"Default Title" }}
-                    </h1>
+                    <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center sm:mt-0 lg:mt-10 font-bold mb-5">
+                        {{ factory_detail.title|default:"Factory Details"|title }}
+                      </h1>
+                                            
                     <p class="leading-loose text-xs text-center lg:leading-loose lg:text-base">
                         {{ factory_detail.text|default:"Default text will go here" }}
                     </p>
@@ -306,9 +261,9 @@
             {% if chairman_message %}
             <!-- Text Section -->
             <div>
-                <h1 class="text-center sm:mt-0 lg:mt-20 font-bold text-2xl md:text-5xl mb-5 uppercase">
-                    {{ chairman_message.title|default:"Default Title" }}
-                </h1>
+                <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center sm:mt-0 lg:mt-20 font-bold mb-5">
+                    {{ chairman_message.title|default:"Default Title"|title }}
+                  </h1>                  
                 <p class="leading-loose text-xs text-center lg:leading-loose lg:text-xs p-5">
                     {{ chairman_message.text|default:"Default brief text goes here" }}
                 </p>
@@ -336,9 +291,10 @@
             <!-- Text Section -->
             <div>
                 {% if director_message %}
-                <h1 class="text-center sm:mt-0 lg:mt-20 font-bold text-2xl md:text-5xl mb-5 uppercase">
-                    {{ director_message.title }}
-                </h1>
+                <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center sm:mt-0 lg:mt-20 font-bold mb-5">
+                    {{ director_message.title|default:"Director"|title }}
+                  </h1>
+                                   
                 <p class="leading-loose text-xs text-center lg:leading-loose lg:text-xs p-5">
                     {{ director_message.text }}
                 </p>
@@ -351,7 +307,9 @@
     <!-- Team Section -->
     {% if team_members %}
     <section class="py-10 max-w-[1200px] mx-auto">
-        <h1 class="font-bold text-5xl text-center mb-10">OUR TEAM</h1>
+        <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-bold text-center mb-10">
+            {{ "Our Team"|title }}
+          </h1>          
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 px-5">
             {% for member in team_members %}
             <div class="mx-auto">
@@ -369,11 +327,14 @@
     <!-- Mission & Vision -->
     {% if mission_vision %}
     <section class="py-10 max-w-[1200px] mx-auto p-8">
-        <h1 class="font-bold text-2xl md:text-5xl text-center mb-10">MISSION & VISION</h1>
+        <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-bold text-center mb-10">
+            Mission & Vision
+          </h1>
+          
         <div class="grid grid-cols-12 mx-auto">
             {% for vision in mission_vision %}
             <div class="col-span-12 lg:col-span-8 md:col-span-8 space-y-3 mt-5 mx-auto">
-                <h2 class="font-bold text-xl md:text-3xl mb-5">{{ vision.title }}</h2>
+                <h2 class="font-bold text-xl md:text-3xl mb-5">{{ vision.title|capfirst }}</h2>
                 {% for line in vision.text.splitlines %}
                 <div class="space-x-2">
                     <span class="bg-[#59B55E] h-3 w-3 rounded-full inline-block"></span>
@@ -393,65 +354,146 @@
     <!-- Footer Section -->
     <footer class="bg-[#1E1E1E] text-white py-10">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-[1400px] p-5 space-y-5 mx-auto">
+          <!-- Logo and Description Section -->
           <div class="mx-auto w-full">
-            <h1 class="text-4xl font-bold mt-5 tracking-widest">{{ footer.title }}</h1>
-            <p class="w-[70%] leading-loose mt-5">{{ footer.description }}</p>
-          
-            <ul class="flex flex-row gap-5 mt-5">
-                {% if footer.fb_link %}
-                <li class="bg-white p-3 rounded-full"> 
-                    <a href="{{ footer.fb_link }}" target="_blank"> 
-                        <img src="{% static 'assets/fb.png' %}" />
-                    </a> 
+            <div class="flex items-center space-x-3">
+              {% if footer and footer.logo %}
+                <img src="{{ footer.logo.url }}" alt="Footer Logo" class="w-[100px] h-[50px] object-contain" />
+              {% else %}
+                <h1 class="text-4xl font-bold tracking-widest">{{ footer.title }}</h1>
+              {% endif %}
+            </div>
+      
+            <!-- Footer Description -->
+            <p class="text-sm w-[70%] leading-loose mt-5">{{ footer.description }}</p>
+      
+            <!-- Social Media Links -->
+            <ul class="flex flex-row gap-5 mt-5 justify-start">
+              {% if footer.fb_link %}
+                <li class="bg-white p-3 rounded-full">
+                  <a href="{{ footer.fb_link }}" target="_blank">
+                    <img src="{% static 'assets/fb.png' %}" alt="Facebook" />
+                  </a>
                 </li>
-                {% endif %}
-                
-                {% if footer.twitter_link %}
-                <li class="bg-white p-3 rounded-full"> 
-                    <a href="{{ footer.twitter_link }}" target="_blank"> 
-                        <img src="{% static 'assets/twitter.png' %}" />
-                    </a> 
+              {% endif %}
+              {% if footer.twitter_link %}
+                <li class="bg-white p-3 rounded-full">
+                  <a href="{{ footer.twitter_link }}" target="_blank">
+                    <img src="{% static 'assets/twitter.png' %}" alt="Twitter" />
+                  </a>
                 </li>
-                {% endif %}
-                
-                {% if footer.instagram_link %}
-                <li class="bg-white p-3 rounded-full"> 
-                    <a href="{{ footer.instagram_link }}" target="_blank"> 
-                        <img src="{% static 'assets/instagram.png' %}" />
-                    </a> 
+              {% endif %}
+              {% if footer.instagram_link %}
+                <li class="bg-white p-3 rounded-full">
+                  <a href="{{ footer.instagram_link }}" target="_blank">
+                    <img src="{% static 'assets/instagram.png' %}" alt="Instagram" />
+                  </a>
                 </li>
-                {% endif %}
-                
-                {% if footer.youtube_link %}
-                <li class="bg-white p-3 rounded-full"> 
-                    <a href="{{ footer.youtube_link }}" target="_blank"> 
-                        <img src="{% static 'assets/youtube.png' %}" />
-                    </a> 
+              {% endif %}
+              {% if footer.youtube_link %}
+                <li class="bg-white p-3 rounded-full">
+                  <a href="{{ footer.youtube_link }}" target="_blank">
+                    <img src="{% static 'assets/youtube.png' %}" alt="YouTube" />
+                  </a>
                 </li>
-                {% endif %}
+              {% endif %}
             </ul>
-        </div>
-        
-    
-        <div class="md:mx-auto">
-          <h1 class="font-semibold text-lg md:text-3xl">Quick Link</h1>
-          <ul class="mt-5 space-y-3">
+          </div>
+      
+          <!-- Quick Links Section -->
+          <div class="md:mx-auto">
+            <h1 class="font-semibold text-lg md:text-3xl">Quick Links</h1>
+            <ul class="mt-5 space-y-3">
               {% for link in footer_links %}
-                  <li class="text-base md:text-xl">
-                      <a href="{{ link.url }}" target="_blank">
-                          <span class="text-[#59B55E] font-bold">&gt;</span> {{ link.name }}
-                      </a>
-                  </li>
+                <li class="text-base md:text-xl">
+                  <a href="{{ link.url }}" target="_blank">
+                    <span class="text-[#59B55E] font-bold">&gt;</span> {{ link.name }}
+                  </a>
+                </li>
               {% endfor %}
-          </ul>
-      </div>
-
-    
+            </ul>
+          </div>
+      
+          <!-- Right Side Section (Icons) -->
+          <div class="flex flex-wrap justify-between gap-5">
+            <!-- Conference Section -->
+            {% for conference in video_conferences %}
+            <a href="{{ conference.url }}" target="_blank">
+            <div class="flex flex-col items-center justify-center w-[100px] h-[100px] p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer">
+              <img src="{% static 'assets/gp1.png' %}" class="w-[40px] h-[40px]" />
+              <p class="text-gray-800 text-xs md:text-sm text-center font-semibold mt-2">Conference</p>
+            </div>
+          </a>
+          {% endfor %}
+      
+            <!-- Appointment Section -->
+            <div class="flex flex-col items-center justify-center w-[100px] h-[100px] p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer" onclick="openAppointmentPopup()">
+              <img src="{% static 'assets/gp2.png' %}" class="w-[40px] h-[40px]" />
+              <p class="text-gray-800 text-xs md:text-sm text-center font-semibold mt-2">Fix an appointment</p>
+            </div>
+      
+            <!-- Call Section -->
+            <a href="tel:{{ contact_us.phone_number }}">
+            <div class="flex flex-col items-center justify-center w-[100px] h-[100px] p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer">
+              <img src="{% static 'assets/gp3.png' %}" class="w-[40px] h-[40px]" />
+              <p class="text-gray-800 text-xs md:text-sm text-center font-semibold mt-2">Call Us</p>
+            </div>
+            </a>
+          </div>
         </div>
       
+        <!-- Footer Bottom Section -->
         <hr class="border-gray-600 border-t-2 mt-5 mb-3 w-full" />
         <p class="text-center mx-auto">&copy; 2025 All rights reserved</p>
       </footer>
+      <script>
+        function openAppointmentPopup() {
+          document.getElementById("appointment-popup").classList.remove("hidden");
+        }
+      
+        function closeAppointmentPopup(event) {
+          const popup = document.getElementById("appointment-popup");
+          if (!event || event.target === popup) {
+            popup.classList.add("hidden");
+          }
+        }
+      </script>
+      
+      <!-- Popup Modal for Appointment -->
+      <div id="appointment-popup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" onclick="closeAppointmentPopup(event)">
+        <div class="bg-white mt-6 p-6 rounded-lg shadow-lg w-10/12 max-w-sm" onclick="event.stopPropagation()">
+          <form method="POST" action="{% url 'submit_appointment' %}">
+            <h2 class="text-black text-lg font-semibold mb-3">Get your Appointment</h2>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="name" class="block text-gray-700 text-sm">Name</label>
+              <input type="text" id="name" name="name" class="text-black w-full border border-gray-300 p-2 rounded text-sm" required />
+            </div>
+            <div class="mb-3">
+              <label for="calendar" class="block text-gray-700 text-sm">Date and Time</label>
+              <input type="datetime-local" id="calendar" name="calendar" class="text-black w-full border border-gray-300 p-2 rounded text-sm" required />
+            </div>
+            <div class="mb-3">
+              <label for="phone_number" class="block text-gray-700 text-sm">Phone Number</label>
+              <input type="tel" id="phone_number" name="phone_number" class="text-black w-full border border-gray-300 p-2 rounded text-sm" required />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="block text-gray-700 text-sm">Email (optional)</label>
+              <input type="email" id="email" name="email" class="text-black w-full border border-gray-300 p-2 rounded text-sm" />
+            </div>
+            <div class="mb-3">
+              <label for="short_message" class="block text-gray-700 text-sm">Short Message</label>
+              <textarea id="short_message" name="short_message" class="text-black w-full border border-gray-300 p-2 rounded text-sm"></textarea>
+            </div>
+            <div class="flex justify-between mt-4">
+              <button type="button" onclick="closeAppointmentPopup()" class="bg-red-500 text-white px-3 py-2 rounded text-sm">Cancel</button>
+              <button type="submit" class="bg-green-500 text-white px-3 py-2 rounded text-sm">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      
     <!-- Custom Scripts -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
