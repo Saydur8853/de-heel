@@ -143,7 +143,7 @@ def submit_company_inquiry(request):
 
 def about(request):
     banner = AboutUsBanner.objects.last()
-    company_voice = CompanyVoice.objects.last()
+    company_voice = CompanyVoice.objects.all()
     factory_detail = FactoryDetail.objects.last()
     video_section = VideoSection.objects.first()
     contact_us = ContactUs.objects.first()

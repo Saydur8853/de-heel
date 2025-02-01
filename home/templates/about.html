@@ -96,35 +96,36 @@
     <!-- Banner -->
     {% if banner %}
     <section 
-        class="relative bg-cover bg-center h-[700px]" 
-        style="background-image: url('{{ banner.image.url }}');">
-        <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative z-10 flex flex-col justify-start max-w-[1500px] mx-auto text-white h-full space-y-6 px-4">
-            <h2 class="text-[36px] sm:text-[24px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-bold uppercase mt-[250px] mx-auto">
-                {{ banner.title|default:"Default Title" }}
-              </h2>
-              
-            <p class="max-w-3xl leading-loose text-sm md:text-sm text-center mx-auto mb-48">
-                {{ banner.subtitle|default:"Default Subtitle" }}
-            </p>
-        </div>
-    </section>
+    class="relative bg-cover bg-center h-[700px]" 
+    style="background-image: url('{% if banner.image %}{{ banner.image.url }}{% else %}default_image_url{% endif %}');">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="relative z-10 flex flex-col justify-start max-w-[1500px] mx-auto text-white h-full space-y-6 px-4">
+        <h2 class="text-[36px] sm:text-[24px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-bold uppercase mt-[250px] mx-auto">
+            {{ banner.title|default:"Default Banner Title" }}
+        </h2>
+        <p class="max-w-3xl leading-loose text-sm md:text-sm text-center mx-auto mb-48">
+            {{ banner.subtitle|default:"Default Banner Subtitle" }}
+        </p>
+    </div>
+</section>
+
     {% endif %}
 
     <main class="mx-auto p-4">
         <!-- About Shoes -->
         <div class="py-10 max-w-[1200px] mx-auto">
-            {% if company_voice %}
-            <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-bold text-center">
-                {{ company_voice.title|default:"Default Title"|title }}
-              </h1>              
-                            
-              <p class="mt-5 s leading-loose text-center text-xs lg:leading-loose lg:text-base mx-auto px-2 sm:px-2 md:px-10 lg:px-12">
-                {{ company_voice.text|default:"Default text will go here" }}
-            </p>
-            
-            {% endif %}
-        </div>
+          {% for voice in company_voice %}
+              <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-bold text-center">
+                  {{ voice.title|lower|capfirst|default:"Company details"|title }}  <!-- Capitalize only the first letter -->
+              </h1>
+                                      
+              <p class="m-5 s leading-loose text-center text-xs lg:leading-loose lg:text-base mx-auto px-2 sm:px-2 md:px-10 lg:px-12">
+                  {{ voice.text }}  <!-- Use 'voice' instead of 'company_voice' -->
+              </p>
+          {% endfor %}
+      </div>
+
+      
         
 
         <!--Factory Section -->
@@ -353,7 +354,7 @@
 
     
     <!-- Footer Section -->
-    <footer class="bg-[#1E1E1E] text-white py-10">
+    <footer class="bg-[#1E1E1E] text-white pt-10 pb-5">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-[1400px] p-5 space-y-5 mx-auto">
         <!-- Logo and Description Section -->
         <div class="mx-auto w-full">
@@ -457,8 +458,13 @@
       </div>
     
       <!-- Footer Bottom Section -->
-      <hr class="border-gray-600 border-t-2 mt-5 mb-3 w-full" />
-      <p class="text-center mx-auto">&copy; 2025 All rights reserved</p>
+      <hr class="border-gray-600 border-t-2 mt-5 w-full" />
+      <!-- Footer Bottom Section -->
+      <div class="w-full text-white text-center py-1">
+        <p class="mt-5 text-center mx-auto">&copy; 2025. All rights reserved</p>
+        <a href="https://socialmicrofinance.org/" class="text-sm text-white  md:mr-6 block md:inline-block mt-2 md:mt-0" target="_blank">Made by SMF</a>
+      </div>
+
     </footer>
 
     <style>
