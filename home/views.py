@@ -8,12 +8,14 @@ from .models import *
 from django.core.paginator import Paginator
 
 def home(request):
+    about_data = AboutUs.objects.last()
     banner = BannerModel.objects.last()
     strengths = Strength.objects.all()
     carousel_images = CarouselImage.objects.all()
     branches = Branch.objects.all() 
     gallery_images = ImageGallery.objects.all()
     video_section = VideoSection.objects.last()
+    factory_detail = FactoryDetail.objects.last()
     
     level1_categories = CategoryLevel1.objects.prefetch_related('level2_categories__level3_categories')
     products = Product.objects.order_by('-id')
@@ -59,6 +61,8 @@ def home(request):
         'video_conferences': video_conferences,
         'level1_categories': level1_categories,
         'products': products,
+        "factory_detail": factory_detail,
+        'about_data': about_data,
    
     }
     

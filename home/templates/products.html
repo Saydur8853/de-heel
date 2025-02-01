@@ -253,7 +253,35 @@
 
 
 
+<style>
+  .spin-clockwise {
+    animation: spin-clockwise 5s linear infinite;
+    transform-origin: center;
+  }
 
+  .spin-counterclockwise {
+    animation: spin-counterclockwise 5s linear infinite;
+    transform-origin: center;
+  }
+
+  @keyframes spin-clockwise {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin-counterclockwise {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+</style>
 
 
     <!-- Footer Section -->
@@ -320,37 +348,51 @@
         </div>
     
         <!-- Right Side Section (Icons) -->
-        <div class="flex flex-wrap justify-between gap-5">
+        <div class="flex flex-wrap justify-center gap-[10px]">
           <!-- Conference Section -->
           {% for conference in video_conferences %}
           <a href="{{ conference.url }}" target="_blank">
-          <div class="flex flex-col items-center justify-center w-[100px] h-[100px] p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer">
-            <img src="{% static 'assets/gp1.png' %}" class="w-[40px] h-[40px]" />
-            <p class="text-gray-800 text-xs md:text-sm text-center font-semibold mt-2">Conference</p>
-          </div>
-        </a>
-        {% endfor %}
-    
-          <!-- Appointment Section -->
-          <div class="flex flex-col items-center justify-center w-[100px] h-[100px] p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer" onclick="openAppointmentPopup()">
-            <img src="{% static 'assets/gp2.png' %}" class="w-[40px] h-[40px]" />
-            <p class="text-gray-800 text-xs md:text-sm text-center font-semibold mt-2">Fix an appointment</p>
-          </div>
-    
-          <!-- Call Section -->
-          <a href="tel:{{ contact_us.phone_number }}">
-          <div class="flex flex-col items-center justify-center w-[100px] h-[100px] p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer">
-            <img src="{% static 'assets/gp3.png' %}" class="w-[40px] h-[40px]" />
-            <p class="text-gray-800 text-xs md:text-sm text-center font-semibold mt-2">Call Us</p>
-          </div>
+            <div class="flex flex-col items-center justify-center w-[120px] h-[150px] p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer">
+              <svg width="100" height="100" viewBox="0 0 89 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- First shape rotating clockwise -->
+                <path class="spin-clockwise" d="M83.6649 37.1189C83.6649 55.0159 58.5511 84.2541 40.654 84.2541C22.757 84.2541 14.1405 62.0862 14.1405 44.1892C14.1405 26.2922 22.757 0 40.654 0C58.5511 0 83.6649 19.2219 83.6649 37.1189Z" fill="#59B55E" fill-opacity="0.5"/>
+                <!-- Second shape rotating counterclockwise -->
+                <path class="spin-counterclockwise" d="M37.0246 8.0767C54.876 6.79971 85.8315 29.7633 87.1085 47.6147C88.3854 65.4661 66.8889 75.6424 49.0375 76.9193C31.1861 78.1963 4.34613 71.4778 3.06915 53.6264C1.79216 35.775 19.1732 9.35368 37.0246 8.0767Z" fill="#59B55E" fill-opacity="0.5"/>
+                <!-- Static phone icon --><path d="M29.2051 59.1338C29.0898 59.1344 28.9762 59.1067 28.8741 59.0532C28.7721 58.9998 28.6846 58.9221 28.6195 58.8271C28.5544 58.732 28.5135 58.6224 28.5005 58.508C28.4874 58.3935 28.5026 58.2775 28.5448 58.1703L31.1845 51.3052C29.4236 48.5696 28.4903 45.3837 28.4966 42.1304C28.4966 32.7545 36.124 25.1271 45.4999 25.1271C54.8759 25.1271 62.5033 32.7545 62.5033 42.1304C62.5033 51.5064 54.8759 59.1338 45.4999 59.1338C42.3203 59.1338 39.2243 58.2468 36.5264 56.5635L29.4431 59.0927C29.3668 59.1203 29.2862 59.1342 29.2051 59.1338ZM36.6157 55.0714C36.7517 55.0714 36.8863 55.1097 37.0025 55.1862C39.5281 56.8394 42.4814 57.7194 45.4999 57.7183C54.0937 57.7183 61.0864 50.7256 61.0864 42.1319C61.0864 33.5381 54.0937 26.5454 45.4999 26.5454C36.9062 26.5454 29.9135 33.5381 29.9135 42.1319C29.9135 45.2463 30.8289 48.2531 32.5632 50.8262C32.6922 51.0175 32.7191 51.2612 32.6369 51.4766L30.4208 57.2393L36.3776 55.1125C36.4541 55.0855 36.5346 55.0716 36.6157 55.0714Z" fill="black"/>
+                <path d="M49.7508 50.6321C47.5248 50.6321 43.2512 47.9697 41.456 46.1744C39.6607 44.3777 36.9983 40.1042 36.9983 37.8796C36.9983 35.5898 38.9466 33.6288 40.5406 33.6288H41.9576C42.0897 33.6289 42.2192 33.666 42.3314 33.7359C42.4436 33.8057 42.534 33.9056 42.5924 34.0241C42.5938 34.0255 43.4468 35.7599 44.0051 36.8481C44.6342 38.0766 43.451 39.5219 42.778 40.2034C43.0189 40.8212 43.5814 42.0454 44.5832 43.0472C45.585 44.049 46.8092 44.613 47.427 44.8524C48.1071 44.178 49.5524 42.9934 50.7823 43.6253C51.8705 44.185 53.6035 45.0366 53.6049 45.0366C53.8486 45.1571 54.0016 45.4036 54.0016 45.6728V47.0898C54.0016 48.6853 52.0391 50.6321 49.7508 50.6321ZM40.5406 35.0457C39.7401 35.0457 38.4152 36.3706 38.4152 37.8796C38.4152 39.5219 40.7305 43.4426 42.4592 45.1712C44.348 47.06 48.2318 49.2152 49.7508 49.2152C51.2598 49.2152 52.5847 47.8903 52.5847 47.0898V46.1135C51.7651 45.7104 50.9484 45.3013 50.1348 44.8864C49.8032 44.7079 48.7958 45.4178 48.1567 46.1418C48.0677 46.2423 47.952 46.3154 47.8231 46.3528C47.6942 46.3902 47.5573 46.3902 47.4284 46.353C47.3391 46.3275 45.2406 45.7068 43.5814 44.0476C41.9221 42.3883 41.3029 40.2898 41.276 40.2006C41.2388 40.0716 41.2388 39.9348 41.2762 39.8059C41.3136 39.677 41.3867 39.5613 41.4871 39.4723C42.2098 38.8332 42.9154 37.83 42.7426 37.4928C42.3472 36.7234 41.8045 35.6267 41.5183 35.0457H40.5406Z" fill="black"/>
+                </svg>
+              <p class="text-gray-800 text-xs md:text-sm text-center font-semibold mt-2">Whatsapp Message</p>
+            </div>
           </a>
+          {% endfor %}
+        
+          <!-- Appointment Section -->
+          <div class="flex flex-col items-center justify-center w-[120px] h-[150px] p-6 bg-green-50 rounded-lg shadow-lg cursor-pointer" onclick="openAppointmentPopup()">
+            <svg width="89" height="85" viewBox="0 0 89 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- First shape rotating clockwise -->
+              <path class="spin-clockwise" d="M83.6649 37.1189C83.6649 55.0159 58.5511 84.2541 40.654 84.2541C22.757 84.2541 14.1405 62.0862 14.1405 44.1892C14.1405 26.2922 22.757 0 40.654 0C58.5511 0 83.6649 19.2219 83.6649 37.1189Z" fill="#59B55E" fill-opacity="0.5"/>
+              <!-- Second shape rotating counterclockwise -->
+              <path class="spin-counterclockwise" d="M37.0246 8.0767C54.876 6.79971 85.8315 29.7633 87.1085 47.6147C88.3854 65.4661 66.8889 75.6424 49.0375 76.9193C31.1861 78.1963 4.34613 71.4778 3.06915 53.6264C1.79216 35.775 19.1732 9.35368 37.0246 8.0767Z" fill="#59B55E" fill-opacity="0.5"/>
+              <!-- Static phone icon --><path d="M37.8333 25.4603V30.4603" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M51.1667 25.4603V30.4603" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M59.5 36.2937V44.8437C58.0167 43.6603 56.1333 42.9603 54.0833 42.9603C52.0333 42.9603 50.1167 43.6769 48.6167 44.8936C46.6 46.4769 45.3333 48.9603 45.3333 51.7103C45.3333 53.3437 45.8 54.9103 46.6 56.2103C47.2167 57.227 48.0167 58.1103 48.9667 58.7937H37.8333C32 58.7937 29.5 55.4603 29.5 50.4603V36.2937C29.5 31.2937 32 27.9603 37.8333 27.9603H51.1667C57 27.9603 59.5 31.2937 59.5 36.2937Z" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M36.1667 40.4603H46.1667" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M36.1667 48.7937H40.5333" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M62.8333 51.7103C62.8333 53.3437 62.3666 54.9103 61.5666 56.2103C61.1 57.0103 60.5167 57.7103 59.8333 58.277C58.3 59.6437 56.3 60.4603 54.0833 60.4603C52.1666 60.4603 50.4 59.8437 48.9666 58.7937C48.0166 58.1103 47.2167 57.227 46.6 56.2103C45.8 54.9103 45.3333 53.3437 45.3333 51.7103C45.3333 48.9603 46.6 46.4769 48.6166 44.8936C50.1166 43.6769 52.0333 42.9603 54.0833 42.9603C56.1333 42.9603 58.0166 43.6603 59.5 44.8437C61.5333 46.4437 62.8333 48.927 62.8333 51.7103Z" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M54.0834 55.877C54.0834 53.577 55.95 51.7104 58.25 51.7104C55.95 51.7104 54.0834 49.8437 54.0834 47.5437C54.0834 49.8437 52.2167 51.7104 49.9167 51.7104C52.2167 51.7104 54.0834 53.577 54.0834 55.877Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            <p class="text-gray-800 text-xs md:text-sm text-center font-semibold mt-2">Fix an Appointment</p>
+          </div>
         </div>
+        
+
       </div>
     
       <!-- Footer Bottom Section -->
       <hr class="border-gray-600 border-t-2 mt-5 mb-3 w-full" />
       <p class="text-center mx-auto">&copy; 2025 All rights reserved</p>
     </footer>
+    
     
     <script>
       function openAppointmentPopup() {

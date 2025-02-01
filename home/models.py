@@ -128,6 +128,14 @@ class Product(models.Model):
 ##     ## ########   #######   #######     ##    
 
 
+class AboutUs(models.Model):
+    description = models.TextField()
+    image = models.ImageField(upload_to='about_images/')
+
+    def __str__(self):
+        return "About Us Section"
+    
+
 class AboutUsBanner(models.Model):
     image = models.ImageField(upload_to='about_us/banner/', verbose_name="Banner Image")
     title = models.CharField(max_length=200, blank=True, null=True, verbose_name="Title (Optional)")

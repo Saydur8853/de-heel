@@ -85,6 +85,7 @@ class ProductAdmin(admin.ModelAdmin):
 ##     ## ##     ## ##     ## ##     ##    ##    
 ##     ## ########   #######   #######     ##    
 
+admin.site.register(AboutUs)
 
 @admin.register(AboutUsBanner)
 class AboutUsBannerAdmin(admin.ModelAdmin):
