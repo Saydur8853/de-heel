@@ -178,12 +178,12 @@ class DirectorMessage(models.Model):
     def __str__(self):
         return self.title
 
-
+# Video Section
 class VideoSection(models.Model):
     title = models.CharField(max_length=200, verbose_name="Title", blank=True, null=True)
-    video_link = models.URLField(blank=True, null=True, verbose_name="Video Link")
+    video_link = models.URLField(blank=False, null=False, verbose_name="Video Link")
     video_file = models.FileField(upload_to='about_us/videos/', blank=True, null=True, verbose_name="Video File")
-    background_image = models.ImageField(upload_to='about_us/backgrounds/', blank=True, null=True, verbose_name="Background Image")
+    background_image = models.ImageField(upload_to='about_us/backgrounds/', blank=False, null=False, verbose_name="Background Image")
 
     @property
     def embed_url(self):

@@ -3,6 +3,10 @@ from .models import *
 from django import template
 from urllib.parse import urlparse, parse_qs
 
+
+
+admin.site.site_header = 'DEHEEL Admin Panel'
+admin.site.site_title = 'DEHEEL Admin'
 register = template.Library()
 @register.filter
 def youtube_video_id(url):
@@ -75,6 +79,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'category', 'stock', 'latest', 'recommend')
     list_filter = ('category', 'latest','recommend')
     search_fields = ('name', 'category__name')
+    list_per_page = 30
 
 
    ###    ########   #######  ##     ## ######## 
@@ -110,6 +115,7 @@ class DirectorMessageAdmin(admin.ModelAdmin):
 @admin.register(VideoSection)
 class VideoSectionAdmin(admin.ModelAdmin):
     list_display = ('title', 'video_link')
+    exclude = ('video_file',)
 
 @admin.register(TeamMember)
 class TeamMemberAdmin(admin.ModelAdmin):

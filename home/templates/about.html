@@ -96,20 +96,20 @@
     <!-- Banner -->
     {% if banner %}
     <section 
-    class="relative bg-cover bg-center h-[700px]" 
-    style="background-image: url('{% if banner.image %}{{ banner.image.url }}{% else %}default_image_url{% endif %}');">
-    <div class="absolute inset-0 bg-black opacity-50"></div>
-    <div class="relative z-10 flex flex-col justify-start max-w-[1500px] mx-auto text-white h-full space-y-6 px-4">
-        <h2 class="text-[36px] sm:text-[24px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-bold uppercase mt-[250px] mx-auto">
-            {{ banner.title|default:"Default Banner Title" }}
-        </h2>
-        <p class="max-w-3xl leading-loose text-sm md:text-sm text-center mx-auto mb-48">
-            {{ banner.subtitle|default:"Default Banner Subtitle" }}
-        </p>
-    </div>
-</section>
-
+        class="relative bg-cover bg-center h-[700px]" 
+        style="background-image: url('{% if banner.image %}{{ banner.image.url }}{% else %}default_image_url{% endif %}');">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="relative z-10 flex flex-col justify-start max-w-[1500px] mx-auto text-white h-full space-y-6 px-4">
+            <h2 class="text-[36px] sm:text-[24px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-bold uppercase mt-[250px] mx-auto">
+                {{ banner.title }}
+            </h2>
+            <p class="max-w-3xl leading-loose text-md md:text-lg text-center mx-auto mb-48">
+                {{ banner.subtitle }}
+            </p>
+        </div>
+    </section>
     {% endif %}
+
 
     <main class="mx-auto p-4">
         <!-- About Shoes -->
@@ -119,7 +119,7 @@
                   {{ voice.title|lower|capfirst|default:"Company details"|title }}  <!-- Capitalize only the first letter -->
               </h1>
                                       
-              <p class="m-5 s leading-loose text-center text-xs lg:leading-loose lg:text-base mx-auto px-2 sm:px-2 md:px-10 lg:px-12">
+              <p class="text-justify m-5 s leading-loose text-center text-xs lg:leading-loose lg:text-base mx-auto px-2 sm:px-2 md:px-10 lg:px-12">
                   {{ voice.text }}  <!-- Use 'voice' instead of 'company_voice' -->
               </p>
           {% endfor %}
@@ -130,27 +130,27 @@
 
         <!--Factory Section -->
         <div class="py-10 max-w-[1200px] mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                {% if factory_detail %}
-                <!-- Image Section -->
-                <div>
-                    <img src="{{ factory_detail.image.url }}" alt="Factory Image" class="mx-auto w-3/4 h-auto" />
-                </div>
-        
-                <!-- Text Section -->
-                <div>
-                    <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center sm:mt-0 lg:mt-10 font-bold mb-5">
-                        {{ factory_detail.title|default:"Factory Details"|title }}
-                      </h1>
-                                            
-                    <p class="leading-loose text-xs text-center lg:leading-loose lg:text-base">
-                        {{ factory_detail.text|default:"Default text will go here" }}
-                    </p>
-                </div>
-                {% else %}
-                {% endif %}
-            </div>
-        </div>
+          {% if factory_detail %}
+          <div class="flex flex-col md:flex-row items-center gap-10">
+              <!-- Image Section -->
+              <div class="w-full md:w-1/2">
+                  <img src="{{ factory_detail.image.url }}" alt="Factory Image" class="mx-auto w-3/4 h-auto object-cover" />
+              </div>
+      
+              <!-- Text Section -->
+              <div class="w-full md:w-1/2">
+                  <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center md:text-left sm:mt-0 lg:mt-10 font-bold mb-5">
+                      {{ factory_detail.title|default:"Factory Details"|title }}
+                  </h1>
+      
+                  <p class="leading-loose text-xs text-center md:text-left lg:leading-loose lg:text-base">
+                      {{ factory_detail.text|default:"Default text will go here" }}
+                  </p>
+              </div>
+          </div>
+          {% endif %}
+      </div>
+      
         
     </main>
     
@@ -259,51 +259,54 @@
 </script>
     <!-- Chairman -->
     <section class="py-10 max-w-[1200px] mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {% if chairman_message %}
-            <!-- Text Section -->
-            <div>
-                <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center sm:mt-0 lg:mt-20 font-bold mb-5">
-                    {{ chairman_message.title|default:"Default Title"|title }}
-                  </h1>                  
-                <p class="leading-loose text-xs text-center lg:leading-loose lg:text-xs p-5">
-                    {{ chairman_message.text|default:"Default brief text goes here" }}
-                </p>
-            </div>
-    
-            <!-- Image Section -->
-            <div>
-                <img src="{{ chairman_message.image.url }}" alt="Chairman Image" class="mx-auto w-3/4 h-auto rounded-lg shadow-md" />
-            </div>
-            {% else %}
-            {% endif %}
-        </div>
-    </section>
+      {% if chairman_message %}
+      <div class="flex flex-col md:flex-row items-center gap-10">
+          <!-- Text Section (Middle Aligned) -->
+          <div class="w-full md:w-1/2 flex flex-col items-center text-center">
+              <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-bold mb-5">
+                  {{ chairman_message.title|default:"Default Title"|title }}
+              </h1>                  
+  
+              <p class="text-justify leading-loose text-xs lg:leading-loose lg:text-base p-5">
+                  {{ chairman_message.text|default:"Default brief text goes here." }}
+              </p>
+          </div>
+  
+          <!-- Image Section (Right Side) -->
+          <div class="w-full md:w-1/2">
+              <img src="{{ chairman_message.image.url }}" alt="Chairman Image" class="mx-auto w-3/4 h-auto rounded-lg shadow-md" />
+          </div>
+      </div>
+      {% endif %}
+  </section>
+  
+  
     
     <!-- Director -->
     <section class="py-10 max-w-[1200px] mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <!-- Image Section -->
-            <div>
-                {% if director_message %}
-                <img src="{{ director_message.image.url }}" alt="Director Image" class="mx-auto w-3/4 h-auto rounded-lg shadow-md" />
-                {% endif %}
-            </div>
-    
-            <!-- Text Section -->
-            <div>
-                {% if director_message %}
-                <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center sm:mt-0 lg:mt-20 font-bold mb-5">
-                    {{ director_message.title|default:"Director"|title }}
-                  </h1>
-                                   
-                <p class="leading-loose text-xs text-center lg:leading-loose lg:text-xs p-5">
-                    {{ director_message.text }}
-                </p>
-                {% endif %}
-            </div>
-        </div>
-    </section>
+      {% if director_message %}
+      <div class="flex flex-col md:flex-row justify-center items-center gap-10">
+          <!-- Image Section (Horizontally Centered) -->
+          <div class="w-full md:w-1/2 flex justify-center">
+              <img src="{{ director_message.image.url }}" alt="Director Image" class="w-3/4 h-auto rounded-lg shadow-md" />
+          </div>
+  
+          <!-- Text Section (Horizontally Centered) -->
+          <div class="w-full md:w-1/2 flex flex-col justify-center items-center text-center">
+              <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-bold mb-5">
+                  {{ director_message.title|default:"Director"|title }}
+              </h1>
+  
+              <p class="text-justify leading-loose text-xs lg:leading-loose lg:text-base p-5">
+                  {{ director_message.text|default:"Default director message goes here." }}
+              </p>
+          </div>
+      </div>
+      {% endif %}
+  </section>
+  
+  
+  
     
     
     <!-- Team Section -->
@@ -333,22 +336,28 @@
             Mission & Vision
           </h1>
           
-        <div class="grid grid-cols-12 mx-auto">
+          <div class="grid grid-cols-12 mx-auto">
             {% for vision in mission_vision %}
-            <div class="col-span-12 lg:col-span-8 md:col-span-8 space-y-3 mt-5 mx-auto">
-                <h2 class="font-bold text-xl md:text-3xl mb-5">{{ vision.title|capfirst }}</h2>
-                {% for line in vision.text.splitlines %}
-                <div class="space-x-2">
-                    <span class="bg-[#59B55E] h-3 w-3 rounded-full inline-block"></span>
-                    <span>{{ line }}</span>
+            <div class="col-span-12 lg:col-span-8 md:col-span-8 space-y-3 mt-5 mx-auto flex justify-center items-center">
+                <!-- Text Section -->
+                <div class="space-y-3 text-center">
+                    <h2 class="font-bold text-xl md:text-3xl mb-5">{{ vision.title|capfirst }}</h2>
+                    {% for line in vision.text.splitlines %}
+                    <div class="space-x-2">
+                        <span class="bg-[#59B55E] h-3 w-3 rounded-full inline-block"></span>
+                        <span>{{ line }}</span>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
-            <div class="col-span-12 lg:col-span-4 md:col-span-4 mx-auto mt-5">
-                <img src="{{ vision.image.url }}" alt="{{ vision.title }}" class="w-[300] h-[400] mt-10" />
+            <div class="col-span-12 lg:col-span-4 md:col-span-4 mx-auto mt-5 flex justify-center items-center">
+                <!-- Image Section (Free width) -->
+                <img src="{{ vision.image.url }}" alt="{{ vision.title }}" class="max-w-full h-auto mt-10" />
             </div>
             {% endfor %}
         </div>
+        
+        
     </section>
     {% endif %}
 

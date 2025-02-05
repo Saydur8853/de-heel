@@ -430,91 +430,80 @@
           categoryDiv.classList.toggle("hidden");
         }
       </script>
-      
-
+    
       <!-- Latest Product -->
 
       <div class="py-10 max-w-[1200px] mx-auto">
         <h2 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-bold text-center mb-[48px]">
-          Latest Product
+            Latest Product
         </h2>
-        
-
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-        >
-          {% for product in latest_products %}
-          <a href="{% url 'product_details' product.id %}">
-            <div
-            class="rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl"
-          >
-            <div class="relative border-b border-gray-200">
-              <img
-                src="{{ product.image.url }}"
-                alt="{{ product.name }}"
-                class="w-full h-[350px] object-cover"
-              />
-              {% if product.minimum_order_quantity %}
-              <span
-                class="absolute top-2 right-2 bg-green-500 text-white text-xs px-4 py-1 rounded-full"
-                >MOQ: {{ product.minimum_order_quantity }}</span
-              >
-              {% endif %}
-            </div>
-            <div class="p-4">
-              <h3 class="text-lg font-semibold capitalize pb-2">
-                {{ product.name }}
-              </h3>
-              <div class="flex justify-between items-center relative">
-                <p class="text-gray-600 text-sm capitalize">
-                  {{ product.description|truncatewords:3 }}
-                </p>
-                <p class="text-green-500 text-xl font-medium">
-                  ${{ product.price }}
-                </p>
-                <button class="text-green-500 absolute top-[-60px] right-0">
-                  <i
-                    class="fa-solid fa-cubes border-4 relative border-white bg-[#D3E6D8] rounded-full p-3"
-                  ></i>
-                  <span
-                    class="absolute right-1 bg-red-700 rounded-full text-sm text-white px-1"
-                    >{{ product.stock }}</span
-                  >
-                </button>
-              </div>
-            </div>
-          </div>
-          </a>
-          {% endfor %}
+    
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for product in latest_products %}
+            <a href="{% url 'product_details' product.id %}">
+                <div class="rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl">
+                    <div class="relative border-b border-gray-200">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-[350px] object-cover" />
+                        {% if product.minimum_order_quantity %}
+                        <span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-4 py-1 rounded-full">
+                            MOQ: {{ product.minimum_order_quantity }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold capitalize pb-2">
+                            {% with product.name.split|slice:":2"|join:" " as short_name %}
+                                {{ short_name }}
+                            {% endwith %}
+                        </h3>
+                        <div class="flex justify-between items-center relative">
+                            <p class="text-gray-600 text-sm capitalize">
+                                {{ product.description|truncatewords:3 }}
+                            </p>
+                            <button class="text-green-500 absolute top-[-60px] right-0">
+                                <i class="fa-solid fa-cubes border-4 relative border-white bg-[#D3E6D8] rounded-full p-3"></i>
+                                <span class="absolute right-1 bg-red-700 rounded-full text-sm text-white px-1">
+                                    {{ product.stock }}
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
         </div>
-      </div>
+    </div>
+    
 
       <!-- About Us Section -->
       <div class="my-16 md:my-[100px] max-w-[1200px] mx-auto" id="about">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div>
-                <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center mt-5 font-bold mb-[12px]">
+        <div class="flex flex-col md:flex-row items-center gap-10">
+            <!-- Text Content (Left Side) -->
+            <div class="w-full md:w-1/2">
+                <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center md:text-left mt-5 font-bold mb-[12px]">
                     About Us
                 </h1>
-                
-                <p class="leading-loose text-center">
+    
+                <p class="leading-loose text-center md:text-left">
                     {{ about_data.description }}
                 </p>
     
                 <a href="{% url 'about' %}" class="hover:text-gray-300">
-                    <button class="mx-auto text-white flex bg-[#59B55E] px-5 py-2 rounded-lg mt-5">
+                    <button class="mx-auto md:mx-0 text-white flex bg-[#59B55E] px-5 py-2 rounded-lg mt-5">
                         Read More <i class="fa-solid ml-5 my-auto fa-arrow-right"></i>
                     </button>
                 </a>
             </div>
     
-            <div>
-                {% if about_data.image %}
-                    <img src="{{ about_data.image.url }}" class="mx-auto" />
-                {% endif %}
-            </div>
+            <!-- Image (Right Side) -->
+            {% if about_data.image %}
+                <div class="w-full md:w-1/2">
+                    <img src="{{ about_data.image.url }}" class="mx-auto w-full h-auto object-cover" />
+                </div>
+            {% endif %}
         </div>
     </div>
+    
     
 
       <!-- Strength -->
@@ -524,58 +513,59 @@
           Our Strength
         </h1>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 py-10">
+        <div class="flex flex-wrap justify-center gap-10 max-w-[1200px] mx-auto py-10">
           {% for strength in strengths %}
           <div
-            class="border rounded-lg border-[#59B55E] shadow-lg shadow-black/20 hover:shadow-black/50 hover:shadow-xl"
+            class="border rounded-lg border-[#59B55E] shadow-lg shadow-black/20 hover:shadow-black/50 hover:shadow-xl w-[30%] min-w-[250px] text-center p-6"
           >
             <img
               src="{{ strength.image.url }}"
-              class="mx-auto w-[90px] h-[80px] mt-[70px]"
+              class="mx-auto w-[90px] h-[80px] mb-4"
               alt="vector"
             />
-            <h1 class="text-center font-bold mt-4 text-3xl mb-4">
-              {{ strength.title }}
-            </h1>
-            <p class="text-center w-[80%] mx-auto mb-[80px]">
-              {{ strength.brief }}
-            </p>
+            <h1 class="font-bold text-3xl mb-4">{{ strength.title }}</h1>
+            <p class="w-[80%] mx-auto">{{ strength.brief }}</p>
           </div>
           {% endfor %}
         </div>
+        
       </div>
 
-      <!--Factory Section -->
-      <div class="my-16 md:my[100px] max-w-[1200px] mx-auto" id="factory">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div>
-            <img src="{{ factory_detail.image.url }}" alt="Factory Image" class="mx-auto" />
+      <!-- Factory Section -->
+<div class="my-16 md:my-[100px] max-w-[1200px] mx-auto" id="factory">
+  <div class="flex flex-col md:flex-row items-center gap-10">
+      <!-- Image (Left Side) -->
+      {% if factory_detail.image %}
+          <div class="w-full md:w-1/2">
+              <img src="{{ factory_detail.image.url }}" alt="Factory Image" class="mx-auto w-full h-auto object-cover" />
           </div>
+      {% endif %}
 
-          <div>
-            <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center mt-5 font-bold mb-[12px]">
+      <!-- Text Content (Right Side) -->
+      <div class="w-full md:w-1/2">
+          <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center md:text-left mt-5 font-bold mb-[12px]">
               Factory Details
-            </h1>
-            
-            <p class="leading-loose text-center">
+          </h1>
+          
+          <p class="leading-loose text-center md:text-left">
               {{ factory_detail.text|default:"Factory Details description" }}
-            </p>
+          </p>
 
-            <!-- <button
-              class="mx-auto text-white flex bg-[#59B55E] px-5 py-2 rounded-lg mt-5"
-            >
+          <!-- Read More Button (Removed the URL issue) -->
+          <!-- <button class="mx-auto md:mx-0 text-white flex bg-[#59B55E] px-5 py-2 rounded-lg mt-5">
               Read More <i class="fa-solid ml-5 my-auto fa-arrow-right"></i>
-            </button> -->
-          </div>
-        </div>
+          </button> -->
       </div>
+  </div>
+</div>
 
-      <!-- Achievement Carousel Section -->
+
+      <!-- Gallery Carousel Section 1st it's name was achievements then changed to Gallery-->
 
       <div class="my-16 md:my[100px] max-w-[1200px] mx-auto overflow-hidden" id="achievements">
         
         <h2 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center mt-5 font-bold mb-[64px]">
-          Achievement
+          Gallery
         </h2>
         
         <section class="my-0">
@@ -603,37 +593,46 @@
       </div>
 
       <!--Branch Section -->
-      <div class="my-16 md:my[100px] max-w-[1200px] mx-auto" id="branches">
-        <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-semibold text-center mt-5 mb-[40px]">
-          Our Branches
-        </h1>        
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10"
-        >
-          {% for branch in branches %}
-          <div class="relative rounded-lg overflow-hidden">
-            <div class="bg-black opacity-50 inset-0 absolute"></div>
-            <img
-              class="mx-auto w-full h-[240px] shadow-md"
-              src="{{ branch.image.url }}"
-              alt="{{ branch.name }}"
-            />
-            <p
-              class="absolute top-[50%] left-[50%] text-white text-3xl uppercase font-semibold transform -translate-x-[50%] -translate-y-[50%]"
-            >
-              {{ branch.name }}
-            </p>
-          </div>
-          {% empty %}
-          <p class="text-center text-gray-500">No branches available.</p>
-          {% endfor %}
-        </div>
+      {% if branches %}
+      <div class="my-16 md:my-[100px] max-w-[1200px] mx-auto" id="branches">
+          <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-semibold text-center mt-5 mb-[40px]">
+              Our Branches
+          </h1>    
+          <div class="flex flex-wrap justify-center gap-10 max-w-[1200px] mx-auto">
+            {% for branch in branches %}
+            <div class="relative rounded-lg overflow-hidden w-[22%] min-w-[250px] {% if branch.description %}group{% endif %}">
+                <div class="bg-black opacity-50 inset-0 absolute"></div>
+                <img
+                    class="mx-auto w-full h-[240px] shadow-md"
+                    src="{{ branch.image.url }}"
+                    alt="{{ branch.name }}"
+                />
+                <p
+                    class="absolute top-[50%] left-[50%] text-white text-3xl uppercase font-semibold transform -translate-x-[50%] -translate-y-[50%]"
+                >
+                    {{ branch.name }}
+                </p>
+        
+                {% if branch.description %}
+                <!-- Black overlay with Branch Description -->
+                <div
+                    class="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center text-white text-lg font-medium px-4 text-center opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300"
+                >
+                    {{ branch.description }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>        
+                
       </div>
+      {% endif %}
 
-      <!-- Gallery Section -->
+
+      <!-- Product at a Glance Section -->
       <div class="my-16 md:my[100px] max-w-full mx-auto" id="gallery">
-        <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-bold text-center mt-0 mb-[40px]">
-          Our Gallery
+        <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] font-semibold text-center mt-0 mb-[40px]">
+          Product at a Glance
         </h1>        
         <style>
           @keyframes scroll-gallery {
@@ -835,29 +834,22 @@
 
     <!-- Contact Section -->
     <section>
-      <div class="my-16 md:my[100px] max-w-[1200px] mx-auto bg-gray-200" id="contact">
+      <div class="my-16 md:my[100px] max-w-[1200px] mx-auto bg-gray-200 rounded-tl-lg rounded-bl-lg" id="contact">
         <div class="grid grid-cols-1 md:grid-cols-2">
-          <div class="bg-[#1E1E1E]">
+          <div class="bg-[#1E1E1E] rounded-tl-lg rounded-bl-lg">
             <h1 class="text-[36px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[36px] text-center uppercase font-bold mt-10 text-white">
               Contact us
             </h1>
             
-            <!-- <h3 class="m-5 text-white">
-              Have a question? Concern? Request? Your questions haven't been
-              answered? Connect with us in your convenient way.
-            </h3> -->
-            <form
-              method="POST"
-              action="{% url 'submit_company_inquiry' %}"
-              class="space-y-8 w-[80%] mx-auto mt-10 mb-10"
-            >
+            <!-- Form -->
+            <form method="POST" action="{% url 'submit_company_inquiry' %}" class="space-y-8 w-[80%] mx-auto mt-10 mb-10">
               {% csrf_token %}
               <div>
                 <input
                   type="text"
                   id="name"
                   name="name"
-                  class="shadow-sm bg-transparent border border-white text-white text-sm outline-none block w-full p-4"
+                  class="shadow-sm bg-transparent border border-white text-white text-sm outline-none block w-full p-4 rounded-tl-lg"
                   placeholder="Name"
                   required
                 />
@@ -867,7 +859,7 @@
                   type="tel"
                   id="phone_no"
                   name="phone_no"
-                  class="shadow-sm bg-transparent border border-white text-white text-sm outline-none block w-full p-4"
+                  class="shadow-sm bg-transparent border border-white text-white text-sm outline-none block w-full p-4 rounded-tl-lg"
                   placeholder="Phone No."
                   required
                 />
@@ -877,7 +869,7 @@
                   type="email"
                   id="email"
                   name="email"
-                  class="shadow-sm bg-transparent border border-white text-white text-sm outline-none block w-full p-4"
+                  class="shadow-sm bg-transparent border border-white text-white text-sm outline-none block w-full p-4 rounded-tl-lg"
                   placeholder="E-mail"
                   required
                 />
@@ -887,7 +879,7 @@
                   type="text"
                   id="location"
                   name="location"
-                  class="shadow-sm bg-transparent border border-white text-white text-sm outline-none block w-full p-4"
+                  class="shadow-sm bg-transparent border border-white text-white text-sm outline-none block w-full p-4 rounded-tl-lg"
                   placeholder="Location of Company"
                   required
                 />
@@ -895,7 +887,7 @@
               <div class="flex justify-end">
                 <button
                   type="submit"
-                  class="py-2 px-5 text-sm font-medium text-center text-white rounded-sm bg-primary-700 sm:w-fit hover:bg-primary-800 bg-[#59B55E] focus:outline-none"
+                  class="py-2 px-5 text-sm font-medium text-center text-white rounded-tl-lg bg-primary-700 sm:w-fit hover:bg-primary-800 bg-[#59B55E] focus:outline-none"
                 >
                   Send
                 </button>
@@ -904,7 +896,7 @@
           </div>
           <div class="relative">
             <!-- Map Wrapper -->
-            <div class="mapswrapper">
+            <div class="mapswrapper rounded-tl-lg rounded-bl-lg">
               {% if contact_us.embed_code %}
               <iframe
                 width="100%"
@@ -923,13 +915,13 @@
                   background: #fff;
                   position: relative;
                 }
-
+    
                 .mapswrapper iframe {
                   border: 0;
                   position: relative;
                   z-index: 1; /* Ensure the map is beneath the overlay */
                 }
-
+    
                 .mapswrapper a {
                   color: rgba(0, 0, 0, 0);
                   position: absolute;
@@ -939,11 +931,9 @@
                 }
               </style>
             </div>
-
+    
             <!-- Card Inside Map -->
-            <div
-              class="absolute px-20 py-5 space-y-2 right-0 bottom-0 bg-[#59B55E] text-white z-10"
-            >
+            <div class="absolute px-20 py-5 space-y-2 right-0 bottom-0 bg-[#59B55E] text-white z-10">
               <h1 class="text-xl">{{ contact_us.address }}</h1>
               <p class="text-sm">{{ contact_us.company_name }}</p>
               <p class="text-sm">{{ contact_us.phone_number }}</p>
@@ -952,6 +942,8 @@
         </div>
       </div>
     </section>
+    
+    
 
     <!-- Footer Section -->
     <footer class="bg-[#1E1E1E] text-white pt-10 pb-5">
